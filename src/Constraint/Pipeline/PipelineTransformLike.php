@@ -3,6 +3,7 @@
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
 use Kiboko\Component\Pipeline\PipelineRunner;
+use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\TransformerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsIdentical;
@@ -37,7 +38,25 @@ class PipelineTransformLike extends Constraint
         }
 
         $runner = new PipelineRunner(null);
-        $both->attachIterator($runner->run($this->asIterator($this->source), $other->transform()));
+        if ($other instanceof FlushableInterface) {
+            $iterator = new \AppendIterator();
+
+            $iterator->append(
+                $runner->run($this->asIterator($this->source), $other->transform())
+            );
+            $iterator->append(
+                $runner->run(
+                    new \ArrayIterator([null]),
+                    (function () use ($other): \Generator {
+                        yield;
+                        yield $other->flush();
+                    })()
+                )
+            );
+        } else {
+            $iterator = $runner->run($this->asIterator($this->source), $other->transform());
+        }
+        $both->attachIterator($iterator);
 
         $index = 0;
         foreach ($both as [$expectedItem, $actualItem]) {
