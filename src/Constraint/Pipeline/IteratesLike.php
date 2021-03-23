@@ -27,7 +27,7 @@ class IteratesLike extends Constraint
         $both = new \MultipleIterator(\MultipleIterator::MIT_NEED_ANY);
 
         $both->attachIterator($this->asIterator($this->expected));
-        $both->attachIterator($this->asIterator($other));
+        $both->attachIterator($this->asIterator($other->extract()));
 
         $index = 0;
         foreach ($both as [$expectedItem, $actualItem]) {

@@ -6,7 +6,8 @@
         "php": "^8.0",
         "phpunit/phpunit": "^9",
         "php-etl/pipeline": "0.2.x-dev",
-        "nikic/php-parser": "^4.10"
+        "nikic/php-parser": "^4.10",
+        "adlawson/vfs": "dev-develop"
     },
     "license": "MIT",
     "authors": [
@@ -19,6 +20,11 @@
     "autoload": {
         "psr-4": {
             "Kiboko\\Component\\PHPUnitExtension\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "functional\\Kiboko\\Component\\PHPUnitExtension\\": "tests/functional/"
         }
     },
     "config": {
