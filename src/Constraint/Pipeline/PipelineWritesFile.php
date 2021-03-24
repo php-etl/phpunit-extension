@@ -6,13 +6,13 @@ use Kiboko\Component\Pipeline\PipelineRunner;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 use PHPUnit\Framework\Constraint\Constraint;
-use PHPUnit\Framework\Constraint\IsIdentical;
+use PHPUnit\Framework\Constraint\FileExists;
 
-final class PipelineLoadsLike extends Constraint
+final class PipelineWritesFile extends Constraint
 {
     public function __construct(
         private iterable $source,
-        private iterable $expected,
+        private string $expected,
     ) {}
 
     private function asIterator(iterable $iterable): \Iterator
@@ -32,10 +32,6 @@ final class PipelineLoadsLike extends Constraint
 
     public function matches($other): bool
     {
-        $both = new \MultipleIterator(\MultipleIterator::MIT_NEED_ANY);
-
-        $both->attachIterator($this->asIterator($this->expected));
-
         if (!$other instanceof LoaderInterface) {
             $this->fail($other, strtr('Expected an instance of %expected%, but got %actual%.', [
                 '%expected%' => LoaderInterface::class,
@@ -62,14 +58,11 @@ final class PipelineLoadsLike extends Constraint
         } else {
             $iterator = $runner->run($this->asIterator($this->source), $other->load());
         }
-        $both->attachIterator($iterator);
 
-        $index = 0;
-        foreach ($both as [$expectedItem, $actualItem]) {
-            ++$index;
-            $constraint = new IsIdentical($expectedItem);
-            $constraint->evaluate($actualItem, sprintf("Values of Iteration #%d", $index)) !== true;
-        }
+        iterator_count($iterator);
+
+        $constraint = new FileExists();
+        $constraint->evaluate($this->expected);
 
         return true;
     }
