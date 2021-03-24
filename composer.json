@@ -6,7 +6,9 @@
         "php": "^8.0",
         "phpunit/phpunit": "^9",
         "php-etl/pipeline": "0.2.x-dev",
-        "nikic/php-parser": "^4.10",
+        "nikic/php-parser": "^4.10"
+    },
+    "require-dev": {
         "adlawson/vfs": "dev-develop"
     },
     "license": "MIT",
