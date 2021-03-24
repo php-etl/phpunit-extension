@@ -5,11 +5,10 @@ namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsIdentical;
 
-final class IteratesLike extends Constraint
+final class PipelineExtractsLike extends Constraint
 {
     public function __construct(private iterable $expected)
-    {
-    }
+    {}
 
     private function asIterator(iterable $iterable): \Iterator
     {
@@ -31,7 +30,7 @@ final class IteratesLike extends Constraint
         $both = new \MultipleIterator(\MultipleIterator::MIT_NEED_ANY);
 
         $both->attachIterator($this->asIterator($this->expected));
-        $both->attachIterator($this->asIterator($other));
+        $both->attachIterator($this->asIterator($other->extract()));
 
         $index = 0;
         foreach ($both as [$expectedItem, $actualItem]) {
@@ -46,7 +45,7 @@ final class IteratesLike extends Constraint
     protected function failureDescription($other): string
     {
         return sprintf(
-            '%s iterates like %s',
+            '%s pipeline extracts like %s',
             $this->exporter()->export($this->exporter()->toArray($other)),
             $this->exporter()->export($this->exporter()->toArray($this->expected)),
         );
@@ -54,6 +53,6 @@ final class IteratesLike extends Constraint
 
     public function toString(): string
     {
-        return 'iterates like';
+        return 'pipeline extracts like';
     }
 }

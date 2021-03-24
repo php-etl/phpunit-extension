@@ -8,7 +8,7 @@ use Kiboko\Component\PHPUnitExtension\Constraint\Builder\BuilderProducesCodeThat
 use Kiboko\Component\PHPUnitExtension\Constraint\Builder\ExtractorIteratesAs;
 use Kiboko\Component\PHPUnitExtension\Constraint\Builder\LoaderProducesFile;
 use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\IteratesLike;
-use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\PipelineLoadLike;
+use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\PipelineLoadsLike;
 use PhpParser\Builder as DefaultBuilder;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\LogicalNot;
@@ -49,11 +49,11 @@ trait BuilderAssertTrait
 
     protected function assertBuilderProducesAPipelineLoadingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
     {
-        $this->assertThat($builder, new BuilderProducesCodeThat(new PipelineLoadLike($actual, $expected)), $message);
+        $this->assertThat($builder, new BuilderProducesCodeThat(new PipelineLoadsLike($actual, $expected)), $message);
     }
 
     protected function assertBuilderProducesAPipelineNotLoadingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
     {
-        $this->assertThat($builder, new LogicalNot(new BuilderProducesCodeThat(new PipelineLoadLike($actual, $expected))), $message);
+        $this->assertThat($builder, new LogicalNot(new BuilderProducesCodeThat(new PipelineLoadsLike($actual, $expected))), $message);
     }
 }

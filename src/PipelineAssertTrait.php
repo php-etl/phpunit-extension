@@ -3,8 +3,9 @@
 namespace Kiboko\Component\PHPUnitExtension;
 
 use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\IteratesLike;
-use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\PipelineLoadLike;
-use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\PipelineTransformLike;
+use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\PipelineExtractsLike;
+use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\PipelineLoadsLike;
+use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\PipelineTransformsLike;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 use Kiboko\Contract\Pipeline\TransformerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
@@ -24,23 +25,33 @@ trait PipelineAssertTrait
         $this->assertThat($actual, new LogicalNot(new IteratesLike($expected)), $message);
     }
 
+    protected function assertPipelineDoesExtractLike(iterable $source, iterable $expected, TransformerInterface $actual, $message = '')
+    {
+        $this->assertThat($actual, new PipelineExtractsLike($expected), $message);
+    }
+
+    protected function assertPipelineDoesNotExtractLike(iterable $source, iterable $expected, TransformerInterface $actual, $message = '')
+    {
+        $this->assertThat($actual, new LogicalNot(new PipelineExtractsLike($expected)), $message);
+    }
+
     protected function assertPipelineDoesTransformLike(iterable $source, iterable $expected, TransformerInterface $actual, $message = '')
     {
-        $this->assertThat($actual, new PipelineTransformLike($source, $expected), $message);
+        $this->assertThat($actual, new PipelineTransformsLike($source, $expected), $message);
     }
 
     protected function assertPipelineDoesNotTransformLike(iterable $source, iterable $expected, TransformerInterface $actual, $message = '')
     {
-        $this->assertThat($actual, new LogicalNot(new PipelineTransformLike($source, $expected)), $message);
+        $this->assertThat($actual, new LogicalNot(new PipelineTransformsLike($source, $expected)), $message);
     }
 
     protected function assertPipelineDoesLoadLike(iterable $source, iterable $expected, LoaderInterface $actual, $message = '')
     {
-        $this->assertThat($actual, new PipelineLoadLike($source, $expected), $message);
+        $this->assertThat($actual, new PipelineLoadsLike($source, $expected), $message);
     }
 
     protected function assertPipelineDoesNotLoadLike(iterable $source, iterable $expected, LoaderInterface $actual, $message = '')
     {
-        $this->assertThat($actual, new LogicalNot(new PipelineLoadLike($source, $expected)), $message);
+        $this->assertThat($actual, new LogicalNot(new PipelineLoadsLike($source, $expected)), $message);
     }
 }
