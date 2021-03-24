@@ -13,7 +13,8 @@ final class PipelineWritesFile extends Constraint
     public function __construct(
         private iterable $source,
         private string $expected,
-    ) {}
+    ) {
+    }
 
     private function asIterator(iterable $iterable): \Iterator
     {

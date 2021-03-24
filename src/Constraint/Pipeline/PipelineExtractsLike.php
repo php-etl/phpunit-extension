@@ -8,7 +8,8 @@ use PHPUnit\Framework\Constraint\IsIdentical;
 final class PipelineExtractsLike extends Constraint
 {
     public function __construct(private iterable $expected)
-    {}
+    {
+    }
 
     private function asIterator(iterable $iterable): \Iterator
     {
