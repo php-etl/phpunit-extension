@@ -81,4 +81,3 @@ final class ExtractorIteratesAs extends Constraint
         );
     }
 }
-

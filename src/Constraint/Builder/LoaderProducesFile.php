@@ -17,7 +17,8 @@ final class LoaderProducesFile extends Constraint
         private string $expectedFile,
         private string $actualFile,
         private array $source
-    ) {}
+    ) {
+    }
 
     public function toString(): string
     {

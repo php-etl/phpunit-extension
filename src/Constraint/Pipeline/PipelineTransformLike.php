@@ -11,7 +11,8 @@ use PHPUnit\Framework\Constraint\IsIdentical;
 class PipelineTransformLike extends Constraint
 {
     public function __construct(private iterable $source, private iterable $expected)
-    {}
+    {
+    }
 
     private function asIterator(iterable $iterable): \Iterator
     {

@@ -90,4 +90,3 @@ final class BuilderProducesAnInstanceOf extends Constraint
         return 'class';
     }
 }
-

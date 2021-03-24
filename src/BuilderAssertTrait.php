@@ -3,7 +3,6 @@
 
 namespace Kiboko\Component\PHPUnitExtension;
 
-
 use Kiboko\Component\PHPUnitExtension\Constraint\Builder\BuilderProducesAnInstanceOf;
 use Kiboko\Component\PHPUnitExtension\Constraint\Builder\BuilderProducesCodeThat;
 use Kiboko\Component\PHPUnitExtension\Constraint\Builder\ExtractorIteratesAs;
@@ -25,7 +24,7 @@ trait BuilderAssertTrait
 
     protected function assertBuilderNotProducesAnInstanceOf(string $expected, DefaultBuilder $builder, string $message = '')
     {
-        $this->assertThat($builder, new LogicalNot(new BuilderProducesAnInstanceOf($expected),), $message);
+        $this->assertThat($builder, new LogicalNot(new BuilderProducesAnInstanceOf($expected), ), $message);
     }
 
     protected function assertExtractorIteratesAs(array $expected, DefaultBuilder $builder, string $message = '')

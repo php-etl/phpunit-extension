@@ -3,7 +3,6 @@
 
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Builder;
 
-
 use PhpParser\Builder;
 use PhpParser\Node;
 use PhpParser\PrettyPrinter;
