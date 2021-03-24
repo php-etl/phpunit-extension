@@ -4,14 +4,15 @@ namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
 use Kiboko\Component\Pipeline\PipelineRunner;
 use Kiboko\Contract\Pipeline\FlushableInterface;
-use Kiboko\Contract\Pipeline\LoaderInterface;
+use Kiboko\Contract\Pipeline\TransformerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsIdentical;
 
-class PipelineLoadLike extends Constraint
+final class PipelineTransformsLike extends Constraint
 {
     public function __construct(private iterable $source, private iterable $expected)
-    {}
+    {
+    }
 
     private function asIterator(iterable $iterable): \Iterator
     {
@@ -21,7 +22,11 @@ class PipelineLoadLike extends Constraint
         if (!$iterable instanceof \Iterator && $iterable instanceof \Traversable) {
             return new \IteratorIterator($iterable);
         }
-        return $iterable;
+        if ($iterable instanceof \Iterator) {
+            return $iterable;
+        }
+
+        throw new \InvalidArgumentException();
     }
 
     public function matches($other): bool
@@ -30,9 +35,9 @@ class PipelineLoadLike extends Constraint
 
         $both->attachIterator($this->asIterator($this->expected));
 
-        if (!$other instanceof LoaderInterface) {
+        if (!$other instanceof TransformerInterface) {
             $this->fail($other, strtr('Expected an instance of %expected%, but got %actual%.', [
-                '%expected%' => LoaderInterface::class,
+                '%expected%' => TransformerInterface::class,
                 '%actual%' => get_debug_type($other),
             ]));
         }
@@ -42,7 +47,7 @@ class PipelineLoadLike extends Constraint
             $iterator = new \AppendIterator();
 
             $iterator->append(
-                $runner->run($this->asIterator($this->source), $other->load())
+                $runner->run($this->asIterator($this->source), $other->transform())
             );
             $iterator->append(
                 $runner->run(
@@ -54,7 +59,7 @@ class PipelineLoadLike extends Constraint
                 )
             );
         } else {
-            $iterator = $runner->run($this->asIterator($this->source), $other->load());
+            $iterator = $runner->run($this->asIterator($this->source), $other->transform());
         }
         $both->attachIterator($iterator);
 
@@ -71,7 +76,7 @@ class PipelineLoadLike extends Constraint
     protected function failureDescription($other): string
     {
         return sprintf(
-            '%s pipeline loads like %s',
+            '%s pipeline transforms like %s',
             $this->exporter()->export($this->exporter()->toArray($other)),
             $this->exporter()->export($this->exporter()->toArray($this->expected)),
         );
@@ -79,6 +84,6 @@ class PipelineLoadLike extends Constraint
 
     public function toString(): string
     {
-        return 'pipeline loads like';
+        return 'pipeline transforms like';
     }
 }
