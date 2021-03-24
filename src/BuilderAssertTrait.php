@@ -50,11 +50,11 @@ trait BuilderAssertTrait
 
     protected function assertBuilderProducesAPipelineLoadingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
     {
-        $this->assertThat($builder, new BuilderProducesCodeThat(new PipelineLoadLike($expected, $actual)), $message);
+        $this->assertThat($builder, new BuilderProducesCodeThat(new PipelineLoadLike($actual, $expected)), $message);
     }
 
     protected function assertBuilderProducesAPipelineNotLoadingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
     {
-        $this->assertThat($builder, new LogicalNot(new BuilderProducesCodeThat(new PipelineLoadLike($expected, $actual))), $message);
+        $this->assertThat($builder, new LogicalNot(new BuilderProducesCodeThat(new PipelineLoadLike($actual, $expected))), $message);
     }
 }
