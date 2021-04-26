@@ -5,7 +5,7 @@
     "require": {
         "php": "^8.0",
         "phpunit/phpunit": "^9",
-        "php-etl/pipeline": "0.2.x-dev",
+        "php-etl/pipeline": "^0.2.0",
         "nikic/php-parser": "^4.10"
     },
     "require-dev": {

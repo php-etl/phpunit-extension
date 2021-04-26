@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc4639f9754c75499a48618ac816b056",
+    "content-hash": "90bf2d7a4164b31bc96fb7d6a4e8c1d8",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -412,7 +412,7 @@
         },
         {
             "name": "php-etl/pipeline",
-            "version": "dev-master",
+            "version": "v0.2.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/pipeline.git",
@@ -440,7 +440,6 @@
                 "phpunit/php-invoker": "*",
                 "phpunit/phpunit": "^9.0"
             },
-            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
@@ -2460,7 +2459,6 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "php-etl/pipeline": 20,
         "adlawson/vfs": 20
     },
     "prefer-stable": false,
