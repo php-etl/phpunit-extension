@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "90bf2d7a4164b31bc96fb7d6a4e8c1d8",
+    "content-hash": "a7906d74341d6955306b5d86e736aa03",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -412,23 +412,23 @@
         },
         {
             "name": "php-etl/pipeline",
-            "version": "v0.2.x-dev",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/pipeline.git",
-                "reference": "3ea13f50b38e8845dd7242a732603435de068e1c"
+                "reference": "7225f196ca73728b7440e5bd3260d880b9cd1330"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/pipeline/zipball/3ea13f50b38e8845dd7242a732603435de068e1c",
-                "reference": "3ea13f50b38e8845dd7242a732603435de068e1c",
+                "url": "https://api.github.com/repos/php-etl/pipeline/zipball/7225f196ca73728b7440e5bd3260d880b9cd1330",
+                "reference": "7225f196ca73728b7440e5bd3260d880b9cd1330",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.0",
                 "php-etl/bucket": "^0.1.0",
                 "php-etl/bucket-contracts": "^0.1.0",
-                "php-etl/pipeline-contracts": "^0.1.0",
+                "php-etl/pipeline-contracts": "^0.2.0",
                 "psr/log": "^1.1@dev"
             },
             "require-dev": {
@@ -440,10 +440,11 @@
                 "phpunit/php-invoker": "*",
                 "phpunit/phpunit": "^9.0"
             },
+            "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.2.x-dev"
+                    "dev-master": "0.3.x-dev"
                 }
             },
             "autoload": {
@@ -470,7 +471,7 @@
                 "issues": "https://github.com/php-etl/pipeline/issues",
                 "source": "https://github.com/php-etl/pipeline/tree/master"
             },
-            "time": "2021-02-19T18:49:35+00:00"
+            "time": "2021-04-26T21:54:01+00:00"
         },
         {
             "name": "php-etl/pipeline-contracts",
@@ -478,23 +479,23 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-etl/pipeline-contracts.git",
-                "reference": "0d90272ad46add53de4933a31aee9f565c180e93"
+                "reference": "ad8a336419c31a31bb18a1a42f9aaa2a93fd1722"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/0d90272ad46add53de4933a31aee9f565c180e93",
-                "reference": "0d90272ad46add53de4933a31aee9f565c180e93",
+                "url": "https://api.github.com/repos/php-etl/pipeline-contracts/zipball/ad8a336419c31a31bb18a1a42f9aaa2a93fd1722",
+                "reference": "ad8a336419c31a31bb18a1a42f9aaa2a93fd1722",
                 "shasum": ""
             },
             "require": {
                 "php": "^8.0",
-                "php-etl/bucket-contracts": "^0.1"
+                "php-etl/bucket-contracts": "^0.1.0"
             },
             "default-branch": true,
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.1.x-dev"
+                    "dev-master": "0.2.x-dev"
                 }
             },
             "autoload": {
@@ -521,7 +522,7 @@
                 "issues": "https://github.com/php-etl/pipeline-contracts/issues",
                 "source": "https://github.com/php-etl/pipeline-contracts/tree/master"
             },
-            "time": "2021-02-01T13:55:21+00:00"
+            "time": "2021-04-26T21:54:36+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
