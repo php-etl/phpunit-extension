@@ -11,7 +11,10 @@ use Kiboko\Contract\Pipeline\ExtractorInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 use Kiboko\Contract\Pipeline\TransformerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\Constraint\IsEqual;
+use PHPUnit\Framework\Constraint\IsIdentical;
 use PHPUnit\Framework\Constraint\LogicalNot;
+use PHPUnit\Framework\Constraint\UnaryOperator;
 
 trait PipelineAssertTrait
 {
@@ -31,37 +34,73 @@ trait PipelineAssertTrait
 
     protected function assertPipelineExtractsLike(iterable $expected, ExtractorInterface $actual, $message = '')
     {
-        $this->assertThat($actual, new PipelineExtractsLike($expected), $message);
+        $this->assertThat($actual, new PipelineExtractsLike($expected, fn ($item) => new IsEqual($item)), $message);
     }
 
     protected function assertPipelineNotExtractsLike(iterable $expected, ExtractorInterface $actual, $message = '')
     {
         $this->assertThat($actual, new LogicalNot(
-            new PipelineExtractsLike($expected),
+            new PipelineExtractsLike($expected, fn ($item) => new IsEqual($item)),
+        ), $message);
+    }
+
+    protected function assertPipelineExtractsExactly(iterable $expected, ExtractorInterface $actual, $message = '')
+    {
+        $this->assertThat($actual, new PipelineExtractsLike($expected, fn ($item) => new IsIdentical($item)), $message);
+    }
+
+    protected function assertPipelineNotExtractsExactly(iterable $expected, ExtractorInterface $actual, $message = '')
+    {
+        $this->assertThat($actual, new LogicalNot(
+            new PipelineExtractsLike($expected, fn ($item) => new IsIdentical($item)),
         ), $message);
     }
 
     protected function assertPipelineTransformsLike(iterable $expected, iterable $source, TransformerInterface $actual, $message = '')
     {
-        $this->assertThat($actual, new PipelineTransformsLike($source, $expected), $message);
+        $this->assertThat($actual, new PipelineTransformsLike($source, $expected, fn ($item) => new IsEqual($item)), $message);
+    }
+
+    protected function assertPipelineTransformsExactly(iterable $expected, iterable $source, TransformerInterface $actual, $message = '')
+    {
+        $this->assertThat($actual, new PipelineTransformsLike($source, $expected, fn ($item) => new IsIdentical($item)), $message);
     }
 
     protected function assertPipelineNotTransformsLike(iterable $expected, iterable $source, TransformerInterface $actual, $message = '')
     {
         $this->assertThat($actual, new LogicalNot(
-            new PipelineTransformsLike($source, $expected),
+            new PipelineTransformsLike($source, $expected, fn ($item) => new IsEqual($item)),
+        ), $message);
+    }
+
+    protected function assertPipelineNotTransformsExactly(iterable $expected, iterable $source, TransformerInterface $actual, $message = '')
+    {
+        $this->assertThat($actual, new LogicalNot(
+            new PipelineTransformsLike($source, $expected, fn ($item) => new IsIdentical($item)),
         ), $message);
     }
 
     protected function assertPipelineLoadsLike(iterable $expected, iterable $source, LoaderInterface $actual, $message = '')
     {
-        $this->assertThat($actual, new PipelineLoadsLike($source, $expected), $message);
+        $this->assertThat($actual, new PipelineLoadsLike($source, $expected, fn ($item) => new IsEqual($item)), $message);
+    }
+
+    protected function assertPipelineLoadsExactly(iterable $expected, iterable $source, LoaderInterface $actual, $message = '')
+    {
+        $this->assertThat($actual, new PipelineLoadsLike($source, $expected, fn ($item) => new IsIdentical($item)), $message);
     }
 
     protected function assertPipelineNotLoadsLike(iterable $expected, iterable $source, LoaderInterface $actual, $message = '')
     {
         $this->assertThat($actual, new LogicalNot(
-            new PipelineLoadsLike($source, $expected)
+            new PipelineLoadsLike($source, $expected, fn ($item) => new IsEqual($item))
+        ), $message);
+    }
+
+    protected function assertPipelineNotLoadsExactly(iterable $expected, iterable $source, LoaderInterface $actual, $message = '')
+    {
+        $this->assertThat($actual, new LogicalNot(
+            new PipelineLoadsLike($source, $expected, fn ($item) => new IsIdentical($item))
         ), $message);
     }
 
