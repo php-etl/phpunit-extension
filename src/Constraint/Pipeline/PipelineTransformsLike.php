@@ -4,6 +4,8 @@ namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
 use Kiboko\Component\Pipeline\PipelineRunner;
 use Kiboko\Contract\Pipeline\FlushableInterface;
+use Kiboko\Contract\Pipeline\NullRejection;
+use Kiboko\Contract\Pipeline\NullState;
 use Kiboko\Contract\Pipeline\TransformerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsIdentical;
@@ -47,7 +49,7 @@ final class PipelineTransformsLike extends Constraint
             $iterator = new \AppendIterator();
 
             $iterator->append(
-                $runner->run($this->asIterator($this->source), $other->transform())
+                $runner->run($this->asIterator($this->source), $other->transform(), new NullRejection(), new NullState())
             );
             $iterator->append(
                 $runner->run(
@@ -55,11 +57,13 @@ final class PipelineTransformsLike extends Constraint
                     (function () use ($other): \Generator {
                         yield;
                         yield $other->flush();
-                    })()
+                    })(),
+                    new NullRejection(),
+                    new NullState()
                 )
             );
         } else {
-            $iterator = $runner->run($this->asIterator($this->source), $other->transform());
+            $iterator = $runner->run($this->asIterator($this->source), $other->transform(), new NullRejection(), new NullState());
         }
         $both->attachIterator($iterator);
 
