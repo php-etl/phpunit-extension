@@ -8,6 +8,7 @@ use Kiboko\Contract\Pipeline\NullRejection;
 use Kiboko\Contract\Pipeline\NullState;
 use Kiboko\Contract\Pipeline\TransformerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\Constraint\IsIdentical;
 
 final class PipelineTransformsLike extends Constraint
@@ -70,7 +71,11 @@ final class PipelineTransformsLike extends Constraint
         $index = 0;
         foreach ($both as [$expectedItem, $actualItem]) {
             ++$index;
-            $constraint = new IsIdentical($expectedItem);
+            if (is_object($actualItem) && is_object($expectedItem)) {
+                $constraint = new IsEqual($expectedItem);
+            } else {
+                $constraint = new IsIdentical($expectedItem);
+            }
             $constraint->evaluate($actualItem, sprintf("Values of Iteration #%d", $index)) !== true;
         }
 
