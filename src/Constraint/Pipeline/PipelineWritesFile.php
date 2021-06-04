@@ -5,6 +5,8 @@ namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 use Kiboko\Component\Pipeline\PipelineRunner;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
+use Kiboko\Contract\Pipeline\NullRejection;
+use Kiboko\Contract\Pipeline\NullState;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\FileExists;
 
@@ -45,7 +47,7 @@ final class PipelineWritesFile extends Constraint
             $iterator = new \AppendIterator();
 
             $iterator->append(
-                $runner->run($this->asIterator($this->source), $other->load())
+                $runner->run($this->asIterator($this->source), $other->load(), new NullRejection(), new NullState())
             );
             $iterator->append(
                 $runner->run(
@@ -53,11 +55,13 @@ final class PipelineWritesFile extends Constraint
                     (function () use ($other): \Generator {
                         yield;
                         yield $other->flush();
-                    })()
+                    })(),
+                    new NullRejection(),
+                    new NullState()
                 )
             );
         } else {
-            $iterator = $runner->run($this->asIterator($this->source), $other->load());
+            $iterator = $runner->run($this->asIterator($this->source), $other->load(), new NullRejection(), new NullState());
         }
 
         iterator_count($iterator);
