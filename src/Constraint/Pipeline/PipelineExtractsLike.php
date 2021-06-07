@@ -3,12 +3,17 @@
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
 use PHPUnit\Framework\Constraint\Constraint;
-use PHPUnit\Framework\Constraint\IsIdentical;
 
 final class PipelineExtractsLike extends Constraint
 {
-    public function __construct(private iterable $expected)
-    {
+    /** @var callable */
+    private $itemConstraintFactory;
+
+    public function __construct(
+        private iterable $expected,
+        callable $itemConstraintFactory
+    ) {
+        $this->itemConstraintFactory = $itemConstraintFactory;
     }
 
     private function asIterator(iterable $iterable): \Iterator
@@ -36,7 +41,7 @@ final class PipelineExtractsLike extends Constraint
         $index = 0;
         foreach ($both as [$expectedItem, $actualItem]) {
             ++$index;
-            $constraint = new IsIdentical($expectedItem);
+            $constraint = ($this->itemConstraintFactory)($expectedItem);
             $constraint->evaluate($actualItem, sprintf("Values of Iteration #%d", $index)) !== true;
         }
 

@@ -10,8 +10,11 @@ use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\PipelineTransformsLike
 use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\PipelineWritesFile;
 use PhpParser\Builder as DefaultBuilder;
 use PHPUnit\Framework\Constraint\Constraint;
+use PHPUnit\Framework\Constraint\IsEqual;
+use PHPUnit\Framework\Constraint\IsIdentical;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\Constraint\LogicalNot;
+use PHPUnit\Framework\Constraint\UnaryOperator;
 
 trait BuilderAssertTrait
 {
@@ -36,7 +39,7 @@ trait BuilderAssertTrait
     protected function assertBuilderProducesExtractorIteratesAs(array $expected, DefaultBuilder $builder, string $message = '')
     {
         $this->assertThat($builder, new BuilderProducesCodeThat(
-            new PipelineExtractsLike($expected)
+            new PipelineExtractsLike($expected, fn ($item) => new IsEqual($item))
         ), $message);
     }
 
@@ -44,7 +47,7 @@ trait BuilderAssertTrait
     {
         $this->assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
-                new PipelineExtractsLike($expected)
+                new PipelineExtractsLike($expected, fn ($item) => new IsEqual($item))
             ),
         ), $message);
     }
@@ -68,7 +71,14 @@ trait BuilderAssertTrait
     protected function assertBuilderProducesPipelineTransformingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
     {
         $this->assertThat($builder, new BuilderProducesCodeThat(
-            new PipelineTransformsLike($actual, $expected)
+            new PipelineTransformsLike($actual, $expected, fn ($item) => new IsEqual($item))
+        ), $message);
+    }
+
+    protected function assertBuilderProducesPipelineTransformingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    {
+        $this->assertThat($builder, new BuilderProducesCodeThat(
+            new PipelineTransformsLike($actual, $expected, fn ($item) => new IsIdentical($item))
         ), $message);
     }
 
@@ -76,7 +86,16 @@ trait BuilderAssertTrait
     {
         $this->assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
-                new PipelineTransformsLike($actual, $expected)
+                new PipelineTransformsLike($actual, $expected, fn ($item) => new IsEqual($item))
+            ),
+        ), $message);
+    }
+
+    protected function assertBuilderProducesPipelineNotTransformingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    {
+        $this->assertThat($builder, new LogicalNot(
+            new BuilderProducesCodeThat(
+                new PipelineTransformsLike($actual, $expected, fn ($item) => new IsIdentical($item))
             ),
         ), $message);
     }
@@ -84,7 +103,14 @@ trait BuilderAssertTrait
     protected function assertBuilderProducesPipelineLoadingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
     {
         $this->assertThat($builder, new BuilderProducesCodeThat(
-            new PipelineLoadsLike($actual, $expected)
+            new PipelineLoadsLike($actual, $expected, fn ($item) => new IsEqual($item))
+        ), $message);
+    }
+
+    protected function assertBuilderProducesPipelineLoadingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    {
+        $this->assertThat($builder, new BuilderProducesCodeThat(
+            new PipelineLoadsLike($actual, $expected, fn ($item) => new IsIdentical($item))
         ), $message);
     }
 
@@ -92,7 +118,16 @@ trait BuilderAssertTrait
     {
         $this->assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
-                new PipelineLoadsLike($actual, $expected)
+                new PipelineLoadsLike($actual, $expected, fn ($item) => new IsEqual($item))
+            ),
+        ), $message);
+    }
+
+    protected function assertBuilderProducesPipelineNotLoadingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    {
+        $this->assertThat($builder, new LogicalNot(
+            new BuilderProducesCodeThat(
+                new PipelineLoadsLike($actual, $expected, fn ($item) => new IsIdentical($item))
             ),
         ), $message);
     }
