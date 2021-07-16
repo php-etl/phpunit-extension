@@ -29,16 +29,22 @@ final class BuilderProducesCodeThat extends UnaryOperator
 
         $printer = new PrettyPrinter\Standard();
 
+        $node = $other->getNode();
+
+        if (!$node instanceof Node\Expr) {
+            $this->fail($other, sprintf('The builder should produce an instance of %s, got %s', Node\Expr::class, get_debug_type($node)));
+        }
+
         try {
             $filename = $this->createFile();
 
             file_put_contents($filename, $printer->prettyPrintFile([
-                new Node\Stmt\Return_($other->getNode())
+                new Node\Stmt\Return_($node)
             ]));
 
             $instance = include $filename;
         } catch (\Error $exception) {
-            $this->fail($printer->prettyPrintExpr($other->getNode()), $exception->getMessage());
+            $this->fail($printer->prettyPrintExpr($node), $exception->getMessage());
         }
 
         return $this->constraint()->evaluate($instance, '', true);
