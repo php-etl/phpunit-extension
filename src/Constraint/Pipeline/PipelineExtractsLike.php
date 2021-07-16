@@ -2,6 +2,10 @@
 
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
+use Kiboko\Component\Pipeline\PipelineRunner;
+use Kiboko\Contract\Pipeline\ExtractorInterface;
+use Kiboko\Contract\Pipeline\NullRejection;
+use Kiboko\Contract\Pipeline\NullState;
 use PHPUnit\Framework\Constraint\Constraint;
 
 final class PipelineExtractsLike extends Constraint
@@ -31,12 +35,52 @@ final class PipelineExtractsLike extends Constraint
         throw new \InvalidArgumentException();
     }
 
+    private function passThroughCoroutine(): \Generator
+    {
+        $line = yield;
+        while ($line = yield $line);
+    }
+
     public function matches($other): bool
     {
         $both = new \MultipleIterator(\MultipleIterator::MIT_NEED_ANY);
 
         $both->attachIterator($this->asIterator($this->expected));
-        $both->attachIterator($this->asIterator($other->extract()));
+
+        if (!$other instanceof ExtractorInterface) {
+            $this->fail($other, strtr('Expected an instance of %expected%, but got %actual%.', [
+                '%expected%' => ExtractorInterface::class,
+                '%actual%' => get_debug_type($other),
+            ]));
+        }
+
+        $runner = new PipelineRunner(null);
+        $extract = $other->extract();
+        if (is_array($extract)) {
+            $iterator = $runner->run(
+                new \ArrayIterator($extract),
+                $this->passThroughCoroutine(),
+                new NullRejection(),
+                new NullState(),
+            );
+        } elseif ($extract instanceof \Iterator) {
+            $iterator = $runner->run(
+                $extract,
+                $this->passThroughCoroutine(),
+                new NullRejection(),
+                new NullState(),
+            );
+        } elseif ($extract instanceof \Traversable) {
+            $iterator = $runner->run(
+                new \IteratorIterator($extract),
+                $this->passThroughCoroutine(),
+                new NullRejection(),
+                new NullState(),
+            );
+        } else {
+            throw new \RuntimeException('Invalid data source, expecting array or Traversable.');
+        }
+        $both->attachIterator($iterator);
 
         $index = 0;
         foreach ($both as [$expectedItem, $actualItem]) {

@@ -22,13 +22,25 @@ trait PipelineAssertTrait
 
     protected function assertDoesIterateLike(iterable $expected, iterable $actual, $message = '')
     {
-        $this->assertThat($actual, new IteratesLike($expected), $message);
+        $this->assertThat($actual, new IteratesLike($expected, fn ($item) => new IsEqual($item)), $message);
+    }
+
+    protected function assertDoesIterateExactly(iterable $expected, iterable $actual, $message = '')
+    {
+        $this->assertThat($actual, new IteratesLike($expected, fn ($item) => new IsIdentical($item)), $message);
     }
 
     protected function assertDoesNotIterateLike(iterable $expected, iterable $actual, $message = '')
     {
         $this->assertThat($actual, new LogicalNot(
-            new IteratesLike($expected),
+            new IteratesLike($expected, fn ($item) => new IsEqual($item)),
+        ), $message);
+    }
+
+    protected function assertDoesNotIterateExactly(iterable $expected, iterable $actual, $message = '')
+    {
+        $this->assertThat($actual, new LogicalNot(
+            new IteratesLike($expected, fn ($item) => new IsIdentical($item)),
         ), $message);
     }
 

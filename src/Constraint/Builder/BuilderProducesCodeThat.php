@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Builder;
 
 use PhpParser\Builder;

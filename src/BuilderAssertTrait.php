@@ -14,7 +14,6 @@ use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\Constraint\IsIdentical;
 use PHPUnit\Framework\Constraint\IsInstanceOf;
 use PHPUnit\Framework\Constraint\LogicalNot;
-use PHPUnit\Framework\Constraint\UnaryOperator;
 
 trait BuilderAssertTrait
 {
@@ -55,7 +54,14 @@ trait BuilderAssertTrait
     protected function assertBuilderProducesPipelineExtractingLike(iterable $expected, DefaultBuilder $builder, string $message = '')
     {
         $this->assertThat($builder, new BuilderProducesCodeThat(
-            new IteratesLike($expected)
+            new IteratesLike($expected, fn ($item) => new IsEqual($item))
+        ), $message);
+    }
+
+    protected function assertBuilderProducesPipelineExtractingExactly(iterable $expected, DefaultBuilder $builder, string $message = '')
+    {
+        $this->assertThat($builder, new BuilderProducesCodeThat(
+            new IteratesLike($expected, fn ($item) => new IsIdentical($item))
         ), $message);
     }
 
@@ -63,7 +69,16 @@ trait BuilderAssertTrait
     {
         $this->assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
-                new IteratesLike($expected)
+                new IteratesLike($expected, fn ($item) => new IsEqual($item))
+            ),
+        ), $message);
+    }
+
+    protected function assertBuilderProducesPipelineNotExtractingExactly(iterable $expected, DefaultBuilder $builder, string $message = '')
+    {
+        $this->assertThat($builder, new LogicalNot(
+            new BuilderProducesCodeThat(
+                new IteratesLike($expected, fn ($item) => new IsIdentical($item))
             ),
         ), $message);
     }

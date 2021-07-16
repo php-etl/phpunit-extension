@@ -55,7 +55,12 @@ final class PipelineLoadsLike extends Constraint
             $iterator = new \AppendIterator();
 
             $iterator->append(
-                $runner->run($this->asIterator($this->source), $other->load(), new NullRejection(), new NullState())
+                $runner->run(
+                    $this->asIterator($this->source),
+                    $other->load(),
+                    new NullRejection(),
+                    new NullState(),
+                )
             );
             $iterator->append(
                 $runner->run(
@@ -65,11 +70,16 @@ final class PipelineLoadsLike extends Constraint
                         yield $other->flush();
                     })(),
                     new NullRejection(),
-                    new NullState()
+                    new NullState(),
                 )
             );
         } else {
-            $iterator = $runner->run($this->asIterator($this->source), $other->load(), new NullRejection(), new NullState());
+            $iterator = $runner->run(
+                $this->asIterator($this->source),
+                $other->load(),
+                new NullRejection(),
+                new NullState(),
+            );
         }
         $both->attachIterator($iterator);
 
