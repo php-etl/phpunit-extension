@@ -5,7 +5,7 @@
     "require": {
         "php": "^8.0",
         "phpunit/phpunit": "^9",
-        "php-etl/pipeline": "^0.3.0",
+        "php-etl/pipeline": "dev-refactoring/feature-and-state",
         "nikic/php-parser": "^4.10"
     },
     "require-dev": {
@@ -34,7 +34,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.2.x-dev"
+            "dev-master": "0.3.x-dev"
         }
     }
 }
