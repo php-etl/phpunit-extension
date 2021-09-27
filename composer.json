@@ -5,11 +5,11 @@
     "require": {
         "php": "^8.0",
         "phpunit/phpunit": "^9",
-        "php-etl/pipeline": "^0.3.0",
         "nikic/php-parser": "^4.10"
     },
     "require-dev": {
-        "adlawson/vfs": "dev-develop"
+        "adlawson/vfs": "dev-develop",
+        "php-etl/pipeline-contracts": "^0.3.0"
     },
     "license": "MIT",
     "authors": [

@@ -9,11 +9,16 @@ use Kiboko\Contract\Pipeline\NullRejection;
 use Kiboko\Contract\Pipeline\NullState;
 use PHPUnit\Framework\Constraint\Constraint;
 
+/** @template Type */
 final class PipelineLoadsLike extends Constraint
 {
     /** @var callable */
     private $itemConstraintFactory;
 
+    /**
+     * @param list<Type> $source
+     * @param list<Type> $expected
+     */
     public function __construct(
         private iterable $source,
         private iterable $expected,
@@ -22,6 +27,10 @@ final class PipelineLoadsLike extends Constraint
         $this->itemConstraintFactory = $itemConstraintFactory;
     }
 
+    /**
+     * @param list<Type> $iterable
+     * @return \Iterator<Type>
+     */
     private function asIterator(iterable $iterable): \Iterator
     {
         if (is_array($iterable)) {
@@ -64,7 +73,7 @@ final class PipelineLoadsLike extends Constraint
             );
             $iterator->append(
                 $runner->run(
-                    new \ArrayIterator([null]),
+                    new \ArrayIterator([[]]),
                     (function () use ($other): \Generator {
                         yield;
                         yield $other->flush();

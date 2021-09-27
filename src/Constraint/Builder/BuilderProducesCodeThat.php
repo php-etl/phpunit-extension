@@ -47,7 +47,7 @@ final class BuilderProducesCodeThat extends UnaryOperator
             $this->fail($printer->prettyPrintExpr($node), $exception->getMessage());
         }
 
-        return $this->constraint()->evaluate($instance, '', true);
+        return $this->constraint()->evaluate($instance, '', true) ?: false;
     }
 
     private function createFile(): string

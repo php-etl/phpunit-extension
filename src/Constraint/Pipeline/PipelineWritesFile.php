@@ -10,14 +10,22 @@ use Kiboko\Contract\Pipeline\NullState;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\FileExists;
 
+/** @template Type */
 final class PipelineWritesFile extends Constraint
 {
+    /**
+     * @param list<Type> $source
+     */
     public function __construct(
         private iterable $source,
         private string $expected,
     ) {
     }
 
+    /**
+     * @param list<Type> $iterable
+     * @return \Iterator<Type>
+     */
     private function asIterator(iterable $iterable): \Iterator
     {
         if (is_array($iterable)) {
@@ -51,7 +59,7 @@ final class PipelineWritesFile extends Constraint
             );
             $iterator->append(
                 $runner->run(
-                    new \ArrayIterator([null]),
+                    new \ArrayIterator([[]]),
                     (function () use ($other): \Generator {
                         yield;
                         yield $other->flush();
@@ -64,7 +72,7 @@ final class PipelineWritesFile extends Constraint
             $iterator = $runner->run($this->asIterator($this->source), $other->load(), new NullRejection(), new NullState());
         }
 
-        iterator_count($iterator);
+        assert(\iterator_count($iterator) >= 0);
 
         $constraint = new FileExists();
         $constraint->evaluate($this->expected);

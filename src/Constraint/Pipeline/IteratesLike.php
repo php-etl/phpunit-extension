@@ -4,11 +4,13 @@ namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
 use PHPUnit\Framework\Constraint\Constraint;
 
+/** @template Type */
 final class IteratesLike extends Constraint
 {
     /** @var callable */
     private $itemConstraintFactory;
 
+    /** @param list<Type> $expected */
     public function __construct(
         private iterable $expected,
         callable $itemConstraintFactory
@@ -16,6 +18,10 @@ final class IteratesLike extends Constraint
         $this->itemConstraintFactory = $itemConstraintFactory;
     }
 
+    /**
+     * @param list<Type> $iterable
+     * @return \Iterator<Type>
+     */
     private function asIterator(iterable $iterable): \Iterator
     {
         if (is_array($iterable)) {
