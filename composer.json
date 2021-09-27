@@ -5,7 +5,7 @@
     "require": {
         "php": "^8.0",
         "phpunit/phpunit": "^9",
-        "php-etl/pipeline": "dev-refactoring/feature-and-state",
+        "php-etl/pipeline": "dev-refactoring/feature-and-state as 0.4.0",
         "nikic/php-parser": "^4.10"
     },
     "require-dev": {

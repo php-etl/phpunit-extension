@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ecf23dc6bb6bd48424ff68832d44a28",
+    "content-hash": "91d83fd39e7dfb16106ee5e05b5b86fb",
     "packages": [
         {
             "name": "doctrine/instantiator",
@@ -2442,7 +2442,14 @@
             "time": "2016-04-22T07:46:29+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "php-etl/pipeline",
+            "version": "dev-refactoring/feature-and-state",
+            "alias": "0.4.0",
+            "alias_normalized": "0.4.0.0"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "php-etl/pipeline": 20,
