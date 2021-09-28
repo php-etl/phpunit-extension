@@ -5,10 +5,7 @@
     "require": {
         "php": "^8.0",
         "phpunit/phpunit": "^9",
-        "nikic/php-parser": "^4.10"
-    },
-    "require-dev": {
-        "adlawson/vfs": "dev-develop",
+        "nikic/php-parser": "^4.10",
         "php-etl/pipeline-contracts": "^0.3.0"
     },
     "license": "MIT",
@@ -19,6 +16,7 @@
         }
     ],
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Kiboko\\Component\\PHPUnitExtension\\": "src/"
