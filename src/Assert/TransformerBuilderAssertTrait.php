@@ -4,6 +4,7 @@ namespace Kiboko\Component\PHPUnitExtension\Assert;
 
 use Kiboko\Component\PHPUnitExtension\Constraint\Builder\BuilderProducesCodeThat;
 use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\PipelineTransformsLike;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PhpParser\Builder as DefaultBuilder;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\IsEqual;
@@ -13,11 +14,12 @@ use PHPUnit\Framework\Constraint\LogicalNot;
 trait TransformerBuilderAssertTrait
 {
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
+    abstract public function pipelineRunner(): PipelineRunnerInterface;
 
     protected function assertBuildsTransformerTransformsLike(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
     {
         $this->assertThat($builder, new BuilderProducesCodeThat(
-            new PipelineTransformsLike($expected, $input, fn ($item) => new IsEqual($item))
+            new PipelineTransformsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner())
         ), $message);
     }
 
@@ -25,7 +27,7 @@ trait TransformerBuilderAssertTrait
     {
         $this->assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
-                new PipelineTransformsLike($expected, $input, fn ($item) => new IsEqual($item))
+                new PipelineTransformsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner())
             ),
         ), $message);
     }
@@ -33,7 +35,7 @@ trait TransformerBuilderAssertTrait
     protected function assertBuildsTransformerTransformsExactly(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
     {
         $this->assertThat($builder, new BuilderProducesCodeThat(
-            new PipelineTransformsLike($expected, $input, fn ($item) => new IsIdentical($item))
+            new PipelineTransformsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
         ), $message);
     }
 
@@ -41,7 +43,7 @@ trait TransformerBuilderAssertTrait
     {
         $this->assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
-                new PipelineTransformsLike($expected, $input, fn ($item) => new IsIdentical($item))
+                new PipelineTransformsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
             ),
         ), $message);
     }

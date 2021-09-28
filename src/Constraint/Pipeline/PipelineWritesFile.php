@@ -2,11 +2,11 @@
 
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
-use Kiboko\Component\Pipeline\PipelineRunner;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
 use Kiboko\Contract\Pipeline\NullRejection;
 use Kiboko\Contract\Pipeline\NullState;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\FileExists;
 
@@ -19,6 +19,7 @@ final class PipelineWritesFile extends Constraint
     public function __construct(
         private iterable $source,
         private string $expected,
+        private PipelineRunnerInterface $runner,
     ) {
     }
 
@@ -50,26 +51,35 @@ final class PipelineWritesFile extends Constraint
             ]));
         }
 
-        $runner = new PipelineRunner(null);
         if ($other instanceof FlushableInterface) {
             $iterator = new \AppendIterator();
 
             $iterator->append(
-                $runner->run($this->asIterator($this->source), $other->load(), new NullRejection(), new NullState())
+                $this->runner->run(
+                    $this->asIterator($this->source),
+                    $other->load(),
+                    new NullRejection(),
+                    new NullState(),
+                )
             );
             $iterator->append(
-                $runner->run(
+                $this->runner->run(
                     new \ArrayIterator([[]]),
                     (function () use ($other): \Generator {
                         yield;
                         yield $other->flush();
                     })(),
                     new NullRejection(),
-                    new NullState()
+                    new NullState(),
                 )
             );
         } else {
-            $iterator = $runner->run($this->asIterator($this->source), $other->load(), new NullRejection(), new NullState());
+            $iterator = $this->runner->run(
+                $this->asIterator($this->source),
+                $other->load(),
+                new NullRejection(),
+                new NullState(),
+            );
         }
 
         assert(\iterator_count($iterator) >= 0);
@@ -83,7 +93,7 @@ final class PipelineWritesFile extends Constraint
     protected function failureDescription($other): string
     {
         return sprintf(
-            '%s pipeline loads like %s',
+            '%s pipeline writes file %s',
             $this->exporter()->export($this->exporter()->toArray($other)),
             $this->exporter()->export($this->exporter()->toArray($this->expected)),
         );
@@ -91,6 +101,6 @@ final class PipelineWritesFile extends Constraint
 
     public function toString(): string
     {
-        return 'pipeline loads like';
+        return 'pipeline writes file';
     }
 }

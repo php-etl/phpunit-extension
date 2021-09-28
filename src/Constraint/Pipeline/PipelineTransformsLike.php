@@ -2,10 +2,10 @@
 
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
-use Kiboko\Component\Pipeline\PipelineRunner;
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\NullRejection;
 use Kiboko\Contract\Pipeline\NullState;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use Kiboko\Contract\Pipeline\TransformerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 
@@ -22,7 +22,8 @@ final class PipelineTransformsLike extends Constraint
     public function __construct(
         private iterable $source,
         private iterable $expected,
-        callable $itemConstraintFactory
+        callable $itemConstraintFactory,
+        private PipelineRunnerInterface $runner,
     ) {
         $this->itemConstraintFactory = $itemConstraintFactory;
     }
@@ -59,12 +60,11 @@ final class PipelineTransformsLike extends Constraint
             ]));
         }
 
-        $runner = new PipelineRunner(null);
         if ($other instanceof FlushableInterface) {
             $iterator = new \AppendIterator();
 
             $iterator->append(
-                $runner->run(
+                $this->runner->run(
                     $this->asIterator($this->source),
                     $other->transform(),
                     new NullRejection(),
@@ -72,7 +72,7 @@ final class PipelineTransformsLike extends Constraint
                 )
             );
             $iterator->append(
-                $runner->run(
+                $this->runner->run(
                     new \ArrayIterator([[]]),
                     (function () use ($other): \Generator {
                         yield;
@@ -83,7 +83,7 @@ final class PipelineTransformsLike extends Constraint
                 )
             );
         } else {
-            $iterator = $runner->run(
+            $iterator = $this->runner->run(
                 $this->asIterator($this->source),
                 $other->transform(),
                 new NullRejection(),

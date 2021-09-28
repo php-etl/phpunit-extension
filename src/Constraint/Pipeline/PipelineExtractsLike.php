@@ -2,10 +2,10 @@
 
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
-use Kiboko\Component\Pipeline\PipelineRunner;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 use Kiboko\Contract\Pipeline\NullRejection;
 use Kiboko\Contract\Pipeline\NullState;
+use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 
 /** @template Type */
@@ -17,7 +17,8 @@ final class PipelineExtractsLike extends Constraint
     /** @param list<Type> $expected */
     public function __construct(
         private iterable $expected,
-        callable $itemConstraintFactory
+        callable $itemConstraintFactory,
+        private PipelineRunnerInterface $runner,
     ) {
         $this->itemConstraintFactory = $itemConstraintFactory;
     }
@@ -61,32 +62,13 @@ final class PipelineExtractsLike extends Constraint
             ]));
         }
 
-        $runner = new PipelineRunner(null);
         $extract = $other->extract();
-        if (is_array($extract)) {
-            $iterator = $runner->run(
-                new \ArrayIterator($extract),
-                $this->passThroughCoroutine(),
-                new NullRejection(),
-                new NullState(),
-            );
-        } elseif ($extract instanceof \Iterator) {
-            $iterator = $runner->run(
-                $extract,
-                $this->passThroughCoroutine(),
-                new NullRejection(),
-                new NullState(),
-            );
-        } elseif ($extract instanceof \Traversable) {
-            $iterator = $runner->run(
-                new \IteratorIterator($extract),
-                $this->passThroughCoroutine(),
-                new NullRejection(),
-                new NullState(),
-            );
-        } else {
-            throw new \RuntimeException('Invalid data source, expecting array or Traversable.');
-        }
+        $iterator = $this->runner->run(
+            $this->asIterator($extract),
+            $this->passThroughCoroutine(),
+            new NullRejection(),
+            new NullState(),
+        );
         $both->attachIterator($iterator);
 
         $index = 0;
