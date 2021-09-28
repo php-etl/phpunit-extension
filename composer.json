@@ -6,7 +6,8 @@
         "php": "^8.0",
         "phpunit/phpunit": "^9",
         "nikic/php-parser": "^4.10",
-        "php-etl/pipeline-contracts": "^0.3.0"
+        "php-etl/pipeline-contracts": "^0.3.0",
+        "adlawson/vfs": "*"
     },
     "license": "MIT",
     "authors": [

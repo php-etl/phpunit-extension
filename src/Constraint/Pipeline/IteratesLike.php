@@ -13,7 +13,7 @@ final class IteratesLike extends Constraint
     /** @param list<Type> $expected */
     public function __construct(
         private iterable $expected,
-        callable $itemConstraintFactory
+        callable $itemConstraintFactory,
     ) {
         $this->itemConstraintFactory = $itemConstraintFactory;
     }
