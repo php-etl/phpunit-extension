@@ -82,7 +82,8 @@ final class PipelineWritesFile extends Constraint
             );
         }
 
-        assert(\iterator_count($iterator) >= 0);
+        /** @phpstan-ignore-next-line */
+        \iterator_count($iterator);
 
         $constraint = new FileExists();
         $constraint->evaluate($this->expected);
