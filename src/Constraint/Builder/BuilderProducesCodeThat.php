@@ -10,6 +10,13 @@ use PHPUnit\Framework\InvalidArgumentException;
 
 final class BuilderProducesCodeThat extends UnaryOperator
 {
+    public function __construct(
+        private string $builderCompilePath,
+        $constraint,
+    ) {
+        parent::__construct($constraint);
+    }
+
     /**
      * Evaluates the constraint for parameter $other. Returns true if the
      * constraint is met, false otherwise.
@@ -52,7 +59,7 @@ final class BuilderProducesCodeThat extends UnaryOperator
 
     private function createFile(): string
     {
-        return 'vfs://' . hash('sha512', random_bytes(512)) .'.php';
+        return $this->builderCompilePath . '/' . hash('sha512', random_bytes(512)) .'.php';
     }
 
     public function operator(): string

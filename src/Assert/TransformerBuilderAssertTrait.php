@@ -13,12 +13,15 @@ use PHPUnit\Framework\Constraint\LogicalNot;
 
 trait TransformerBuilderAssertTrait
 {
+    use BuilderAssertTrait;
+
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
     abstract public function pipelineRunner(): PipelineRunnerInterface;
 
     protected function assertBuildsTransformerTransformsLike(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
     {
         $this->assertThat($builder, new BuilderProducesCodeThat(
+            $this->getBuilderCompilePath(),
             new PipelineTransformsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner())
         ), $message);
     }
@@ -27,6 +30,7 @@ trait TransformerBuilderAssertTrait
     {
         $this->assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
+                $this->getBuilderCompilePath(),
                 new PipelineTransformsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner())
             ),
         ), $message);
@@ -35,6 +39,7 @@ trait TransformerBuilderAssertTrait
     protected function assertBuildsTransformerTransformsExactly(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
     {
         $this->assertThat($builder, new BuilderProducesCodeThat(
+            $this->getBuilderCompilePath(),
             new PipelineTransformsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
         ), $message);
     }
@@ -43,6 +48,7 @@ trait TransformerBuilderAssertTrait
     {
         $this->assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
+                $this->getBuilderCompilePath(),
                 new PipelineTransformsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
             ),
         ), $message);

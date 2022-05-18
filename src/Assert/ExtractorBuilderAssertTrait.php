@@ -13,12 +13,15 @@ use PHPUnit\Framework\Constraint\LogicalNot;
 
 trait ExtractorBuilderAssertTrait
 {
+    use BuilderAssertTrait;
+
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
     abstract public function pipelineRunner(): PipelineRunnerInterface;
 
     protected function assertBuildsExtractorExtractsLike(iterable $expected, DefaultBuilder $builder, string $message = '')
     {
         $this->assertThat($builder, new BuilderProducesCodeThat(
+            $this->getBuilderCompilePath(),
             new PipelineExtractsLike($expected, fn ($item) => new IsEqual($item), $this->pipelineRunner())
         ), $message);
     }
@@ -27,6 +30,7 @@ trait ExtractorBuilderAssertTrait
     {
         $this->assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
+                $this->getBuilderCompilePath(),
                 new PipelineExtractsLike($expected, fn ($item) => new IsEqual($item), $this->pipelineRunner())
             ),
         ), $message);
@@ -35,6 +39,7 @@ trait ExtractorBuilderAssertTrait
     protected function assertBuildsExtractorExtractsExactly(iterable $expected, DefaultBuilder $builder, string $message = '')
     {
         $this->assertThat($builder, new BuilderProducesCodeThat(
+            $this->getBuilderCompilePath(),
             new PipelineExtractsLike($expected, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
         ), $message);
     }
@@ -43,6 +48,7 @@ trait ExtractorBuilderAssertTrait
     {
         $this->assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
+                $this->getBuilderCompilePath(),
                 new PipelineExtractsLike($expected, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
             ),
         ), $message);

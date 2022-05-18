@@ -10,11 +10,14 @@ use PHPUnit\Framework\Constraint\LogicalNot;
 
 trait PipelineBuilderAssertTrait
 {
+    use BuilderAssertTrait;
+
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
 
     protected function assertBuilderProducesInstanceOf(string $expected, DefaultBuilder $builder, string $message = '')
     {
         $this->assertThat($builder, new BuilderProducesCodeThat(
+            $this->getBuilderCompilePath(),
             new IsInstanceOf($expected)
         ), $message);
     }
@@ -23,6 +26,7 @@ trait PipelineBuilderAssertTrait
     {
         $this->assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
+                $this->getBuilderCompilePath(),
                 new IsInstanceOf($expected)
             ),
         ), $message);
