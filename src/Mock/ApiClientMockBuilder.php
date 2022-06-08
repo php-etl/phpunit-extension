@@ -2,7 +2,6 @@
 
 namespace Kiboko\Component\PHPUnitExtension\Mock;
 
-use Akeneo\Pim\ApiClient\AkeneoPimClientBuilder;
 use Faker\Factory;
 use Kiboko\Component\PHPUnitExtension\Mock;
 use PhpParser\Builder;
@@ -12,12 +11,13 @@ final class ApiClientMockBuilder implements Builder
 {
     private Node\Expr $node;
 
-    public function __construct()
-    {
+    public function __construct(
+        private string $mockedClientBuilder
+    ) {
         $faker = Factory::create();
 
         $this->node = new Node\Expr\New_(
-            class: new Node\Name\FullyQualified(AkeneoPimClientBuilder::class),
+            class: new Node\Name\FullyQualified($this->mockedClientBuilder),
             args: [
                 new Node\Arg(
                     new Node\Scalar\String_('https://akeneo.'.$faker->safeEmailDomain()),
