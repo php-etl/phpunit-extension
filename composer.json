@@ -12,7 +12,7 @@
         "php-http/mock-client": "^1.4@dev",
         "fakerphp/faker": "^1.19",
         "laminas/laminas-diactoros": "^2.6",
-        "akeneo/api-php-client": "^9.0"
+        "mikey179/vfsstream": "^1.6"
     },
     "license": "MIT",
     "authors": [

@@ -23,7 +23,7 @@ final class ApiClientMockBuilder implements Builder
                     new Node\Scalar\String_('https://akeneo.'.$faker->safeEmailDomain()),
                 ),
             ],
-        );;
+        );
     }
 
     public function withHttpClient(Mock\HttpClientBuilder $httpClient): self
