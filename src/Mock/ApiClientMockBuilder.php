@@ -118,7 +118,7 @@ final class ApiClientMockBuilder implements Builder
 
         $this->node = new Node\Expr\MethodCall(
             var: $this->node,
-            name: new Node\Identifier('buildAuthenticatedByPassword'),
+            name: new Node\Identifier('buildAuthenticatedByToken'),
             args: [
                 new Node\Arg(
                     new Node\Scalar\String_($faker->regexify('\d{1,2}_[0-9a-f]{48}')),
