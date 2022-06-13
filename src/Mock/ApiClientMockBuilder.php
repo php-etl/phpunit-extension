@@ -12,17 +12,12 @@ final class ApiClientMockBuilder implements Builder
     private Node\Expr $node;
 
     public function __construct(
-        private string $mockedClientBuilder
+        private string $mockedClientBuilder,
+        private ?array $mockedArgs = []
     ) {
-        $faker = Factory::create();
-
         $this->node = new Node\Expr\New_(
             class: new Node\Name\FullyQualified($this->mockedClientBuilder),
-            args: [
-                new Node\Arg(
-                    new Node\Scalar\String_('https://akeneo.'.$faker->safeEmailDomain()),
-                ),
-            ],
+            args: $this->mockedArgs,
         );
     }
 
