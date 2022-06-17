@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Component\PHPUnitExtension\Mock\RequestMatcher;
 
@@ -11,7 +13,8 @@ final class RequestMatcherBuilder implements RequestMatcherBuilderInterface
         private ?string $host = null,
         private $methods = [],
         private $schemes = []
-    ) {}
+    ) {
+    }
 
     public function getNode(): Node
     {
