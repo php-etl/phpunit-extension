@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kiboko\Component\PHPUnitExtension\Mock;
 
@@ -9,7 +11,7 @@ use PhpParser\Node;
 
 final class HttpClientBuilder implements Builder
 {
-    /** @var Node\expr[] */
+    /** @var Node\Expr[] */
     private array $nodes;
 
     public function __construct(
@@ -41,7 +43,7 @@ final class HttpClientBuilder implements Builder
         Mock\RequestMatcher\RequestMatcherBuilderInterface $requestMatcher,
         Mock\ExceptionBuilder $exception,
     ): self {
-        $this->node = new Node\Expr\MethodCall(
+        $this->nodes[] = new Node\Expr\MethodCall(
             var: new Node\Expr\Variable('client'),
             name: new Node\Identifier('on'),
             args: [
