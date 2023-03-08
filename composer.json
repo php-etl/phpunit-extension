@@ -3,8 +3,8 @@
     "description": "Extension for testing FastMap and ETL components with PHPUnit testing framework",
     "type": "library",
     "require": {
-        "php": "^8.1",
-        "phpunit/phpunit": "^9",
+        "php": "^8.2",
+        "phpunit/phpunit": "^10",
         "nikic/php-parser": "^4.10",
         "php-etl/pipeline-contracts": "^0.3.0",
         "php-http/message": "^1.11",
@@ -12,6 +12,10 @@
         "fakerphp/faker": "^1.19",
         "laminas/laminas-diactoros": "^2.6",
         "mikey179/vfsstream": "^1.6"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.10",
+        "rector/rector": "^0.15"
     },
     "license": "MIT",
     "authors": [
@@ -33,7 +37,10 @@
         }
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "bin",
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     },
     "extra": {
         "branch-alias": {

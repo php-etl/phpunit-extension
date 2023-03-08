@@ -15,28 +15,29 @@ use PHPUnit\Framework\Constraint\LogicalNot;
 trait TransformerAssertTrait
 {
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
+
     abstract public function pipelineRunner(): PipelineRunnerInterface;
 
-    protected function assertTransformerTransformsLike(iterable $expected, iterable $input, TransformerInterface $transformer, string $message = '')
+    protected function assertTransformerTransformsLike(iterable $expected, iterable $input, TransformerInterface $transformer, string $message = ''): void
     {
-        $this->assertThat($transformer, new PipelineTransformsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner()), $message);
+        static::assertThat($transformer, new PipelineTransformsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner()), $message);
     }
 
-    protected function assertTransformerDoesNotTransformLike(iterable $expected, iterable $input, TransformerInterface $transformer, string $message = '')
+    protected function assertTransformerDoesNotTransformLike(iterable $expected, iterable $input, TransformerInterface $transformer, string $message = ''): void
     {
-        $this->assertThat($transformer, new LogicalNot(
+        static::assertThat($transformer, new LogicalNot(
             new PipelineTransformsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner())
         ), $message);
     }
 
-    protected function assertTransformerTransformsExactly(iterable $expected, iterable $input, TransformerInterface $transformer, string $message = '')
+    protected function assertTransformerTransformsExactly(iterable $expected, iterable $input, TransformerInterface $transformer, string $message = ''): void
     {
-        $this->assertThat($transformer, new PipelineTransformsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner()), $message);
+        static::assertThat($transformer, new PipelineTransformsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner()), $message);
     }
 
-    protected function assertTransformerDoesNotTransformExactly(iterable $expected, iterable $input, TransformerInterface $transformer, string $message = '')
+    protected function assertTransformerDoesNotTransformExactly(iterable $expected, iterable $input, TransformerInterface $transformer, string $message = ''): void
     {
-        $this->assertThat($transformer, new LogicalNot(
+        static::assertThat($transformer, new LogicalNot(
             new PipelineTransformsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
         ), $message);
     }

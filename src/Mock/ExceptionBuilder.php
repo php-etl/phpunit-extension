@@ -10,10 +10,10 @@ use PhpParser\Node;
 final class ExceptionBuilder implements Builder
 {
     /** @var Node\Expr[] */
-    private array $arguments;
+    private readonly array $arguments;
 
     public function __construct(
-        private string $class,
+        private readonly string $class,
         Node\Expr ...$arguments,
     ) {
         $this->arguments = $arguments;
@@ -25,10 +25,10 @@ final class ExceptionBuilder implements Builder
             class: new Node\Name\FullyQualified($this->class),
             args: [
                 array_map(
-                    fn (Node\Expr $value, int|string $key) => !is_string($key) ? new Node\Arg(value: $value) : new Node\Arg(value: $value, name: new Node\Identifier($key)),
+                    fn (Node\Expr $value, int|string $key) => !\is_string($key) ? new Node\Arg(value: $value) : new Node\Arg(value: $value, name: new Node\Identifier($key)),
                     $this->arguments,
                     array_keys($this->arguments),
-                )
+                ),
             ]
         );
     }

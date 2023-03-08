@@ -19,19 +19,20 @@ final class PipelineWritesFile extends Constraint
      * @param list<Type> $source
      */
     public function __construct(
-        private iterable $source,
-        private string $expected,
-        private PipelineRunnerInterface $runner,
+        private readonly iterable $source,
+        private readonly string $expected,
+        private readonly PipelineRunnerInterface $runner,
     ) {
     }
 
     /**
      * @param list<Type> $iterable
+     *
      * @return \Iterator<Type>
      */
     private function asIterator(iterable $iterable): \Iterator
     {
-        if (is_array($iterable)) {
+        if (\is_array($iterable)) {
             return new \ArrayIterator($iterable);
         }
         if (!$iterable instanceof \Iterator && $iterable instanceof \Traversable) {
@@ -84,8 +85,7 @@ final class PipelineWritesFile extends Constraint
             );
         }
 
-        /** @phpstan-ignore-next-line */
-        \iterator_count($iterator);
+        iterator_count($iterator);
 
         $constraint = new FileExists();
         $constraint->evaluate($this->expected);

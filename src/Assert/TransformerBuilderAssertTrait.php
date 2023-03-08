@@ -18,19 +18,20 @@ trait TransformerBuilderAssertTrait
     use BuilderAssertTrait;
 
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
+
     abstract public function pipelineRunner(): PipelineRunnerInterface;
 
-    protected function assertBuildsTransformerTransformsLike(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsTransformerTransformsLike(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new BuilderProducesCodeThat(
+        static::assertThat($builder, new BuilderProducesCodeThat(
             $this->getBuilderCompilePath(),
             new PipelineTransformsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner())
         ), $message);
     }
 
-    protected function assertBuildsTransformerDoesNotTransformLike(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsTransformerDoesNotTransformLike(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new LogicalNot(
+        static::assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
                 $this->getBuilderCompilePath(),
                 new PipelineTransformsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner())
@@ -38,17 +39,17 @@ trait TransformerBuilderAssertTrait
         ), $message);
     }
 
-    protected function assertBuildsTransformerTransformsExactly(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsTransformerTransformsExactly(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new BuilderProducesCodeThat(
+        static::assertThat($builder, new BuilderProducesCodeThat(
             $this->getBuilderCompilePath(),
             new PipelineTransformsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
         ), $message);
     }
 
-    protected function assertBuildsTransformerDoesNotTransformExactly(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsTransformerDoesNotTransformExactly(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new LogicalNot(
+        static::assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
                 $this->getBuilderCompilePath(),
                 new PipelineTransformsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner())

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Builder;
 
 use PhpParser\Builder;
@@ -11,7 +13,7 @@ use PHPUnit\Framework\InvalidArgumentException;
 final class BuilderProducesCodeThat extends UnaryOperator
 {
     public function __construct(
-        private string $builderCompilePath,
+        private readonly string $builderCompilePath,
         $constraint,
     ) {
         parent::__construct($constraint);
@@ -22,16 +24,13 @@ final class BuilderProducesCodeThat extends UnaryOperator
      * constraint is met, false otherwise.
      *
      * @param Builder $other value or object to evaluate
-     * @return bool
+     *
      * @throws \Exception
      */
     protected function matches($other): bool
     {
         if (!$other instanceof Builder) {
-            throw InvalidArgumentException::create(
-                1,
-                Builder::class,
-            );
+            throw InvalidArgumentException::create(1, Builder::class);
         }
 
         $printer = new PrettyPrinter\Standard();
@@ -46,7 +45,7 @@ final class BuilderProducesCodeThat extends UnaryOperator
             $filename = $this->createFile();
 
             file_put_contents($filename, $printer->prettyPrintFile([
-                new Node\Stmt\Return_($node)
+                new Node\Stmt\Return_($node),
             ]));
 
             $instance = include $filename;
@@ -59,7 +58,7 @@ final class BuilderProducesCodeThat extends UnaryOperator
 
     private function createFile(): string
     {
-        return $this->builderCompilePath . '/' . hash('sha512', random_bytes(512)) .'.php';
+        return $this->builderCompilePath.'/'.hash('sha512', random_bytes(512)).'.php';
     }
 
     public function operator(): string

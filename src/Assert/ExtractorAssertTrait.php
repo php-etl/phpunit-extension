@@ -15,28 +15,29 @@ use PHPUnit\Framework\Constraint\LogicalNot;
 trait ExtractorAssertTrait
 {
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
+
     abstract public function pipelineRunner(): PipelineRunnerInterface;
 
-    protected function assertExtractorExtractsLike(iterable $expected, ExtractorInterface $extractor, string $message = '')
+    protected function assertExtractorExtractsLike(iterable $expected, ExtractorInterface $extractor, string $message = ''): void
     {
-        $this->assertThat($extractor, new PipelineExtractsLike($expected, fn ($item) => new IsEqual($item), $this->pipelineRunner()), $message);
+        static::assertThat($extractor, new PipelineExtractsLike($expected, fn ($item) => new IsEqual($item), $this->pipelineRunner()), $message);
     }
 
-    protected function assertExtractorDoesNotExtractLike(iterable $expected, ExtractorInterface $extractor, string $message = '')
+    protected function assertExtractorDoesNotExtractLike(iterable $expected, ExtractorInterface $extractor, string $message = ''): void
     {
-        $this->assertThat($extractor, new LogicalNot(
+        static::assertThat($extractor, new LogicalNot(
             new PipelineExtractsLike($expected, fn ($item) => new IsEqual($item), $this->pipelineRunner())
         ), $message);
     }
 
-    protected function assertExtractorExtractsExactly(iterable $expected, ExtractorInterface $extractor, string $message = '')
+    protected function assertExtractorExtractsExactly(iterable $expected, ExtractorInterface $extractor, string $message = ''): void
     {
-        $this->assertThat($extractor, new PipelineExtractsLike($expected, fn ($item) => new IsIdentical($item), $this->pipelineRunner()), $message);
+        static::assertThat($extractor, new PipelineExtractsLike($expected, fn ($item) => new IsIdentical($item), $this->pipelineRunner()), $message);
     }
 
-    protected function assertExtractorDoesNotExtractExactly(iterable $expected, ExtractorInterface $extractor, string $message = '')
+    protected function assertExtractorDoesNotExtractExactly(iterable $expected, ExtractorInterface $extractor, string $message = ''): void
     {
-        $this->assertThat($extractor, new LogicalNot(
+        static::assertThat($extractor, new LogicalNot(
             new PipelineExtractsLike($expected, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
         ), $message);
     }

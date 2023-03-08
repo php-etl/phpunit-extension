@@ -16,17 +16,17 @@ trait PipelineBuilderAssertTrait
 
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
 
-    protected function assertBuilderProducesInstanceOf(string $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesInstanceOf(string $expected, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new BuilderProducesCodeThat(
+        static::assertThat($builder, new BuilderProducesCodeThat(
             $this->getBuilderCompilePath(),
             new IsInstanceOf($expected)
         ), $message);
     }
 
-    protected function assertBuilderProducesNotInstanceOf(string $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesNotInstanceOf(string $expected, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new LogicalNot(
+        static::assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
                 $this->getBuilderCompilePath(),
                 new IsInstanceOf($expected)

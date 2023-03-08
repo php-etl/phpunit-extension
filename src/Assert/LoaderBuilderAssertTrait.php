@@ -19,19 +19,20 @@ trait LoaderBuilderAssertTrait
     use BuilderAssertTrait;
 
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
+
     abstract public function pipelineRunner(): PipelineRunnerInterface;
 
-    protected function assertBuildsLoaderLoadsLike(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsLoaderLoadsLike(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new BuilderProducesCodeThat(
+        static::assertThat($builder, new BuilderProducesCodeThat(
             $this->getBuilderCompilePath(),
             new PipelineLoadsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner())
         ), $message);
     }
 
-    protected function assertBuildsLoaderDoesNotLoadLike(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsLoaderDoesNotLoadLike(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new LogicalNot(
+        static::assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
                 $this->getBuilderCompilePath(),
                 new PipelineLoadsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner())
@@ -39,17 +40,17 @@ trait LoaderBuilderAssertTrait
         ), $message);
     }
 
-    protected function assertBuildsLoaderLoadsExactly(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsLoaderLoadsExactly(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new BuilderProducesCodeThat(
+        static::assertThat($builder, new BuilderProducesCodeThat(
             $this->getBuilderCompilePath(),
             new PipelineLoadsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
         ), $message);
     }
 
-    protected function assertBuildsLoaderDoesNotLoadExactly(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsLoaderDoesNotLoadExactly(iterable $expected, iterable $input, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new LogicalNot(
+        static::assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
                 $this->getBuilderCompilePath(),
                 new PipelineLoadsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
@@ -57,17 +58,17 @@ trait LoaderBuilderAssertTrait
         ), $message);
     }
 
-    protected function assertBuildsLoaderProducesFile(string $expected, iterable $input, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsLoaderProducesFile(string $expected, iterable $input, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new BuilderProducesCodeThat(
+        static::assertThat($builder, new BuilderProducesCodeThat(
             $this->getBuilderCompilePath(),
             new PipelineWritesFile($input, $expected, $this->pipelineRunner()),
         ), $message);
     }
 
-    protected function assertBuildsLoaderDoesNotProduceFile(string $expected, iterable $input, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsLoaderDoesNotProduceFile(string $expected, iterable $input, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new LogicalNot(
+        static::assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
                 $this->getBuilderCompilePath(),
                 new PipelineWritesFile($input, $expected, $this->pipelineRunner()),

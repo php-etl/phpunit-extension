@@ -20,7 +20,7 @@ trait BuilderAssertTrait
     use Assert\PipelineBuilderAssertTrait;
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\ExtractorBuilderAssertTrait::assertBuildsExtractorExtractsLike() */
-    protected function assertBuilderProducesExtractorIteratesAs(array $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesExtractorIteratesAs(array $expected, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -36,7 +36,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\ExtractorBuilderAssertTrait::assertBuildsExtractorDoesNotExtractLike() */
-    protected function assertBuilderProducesExtractorNotIteratesAs(array $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesExtractorNotIteratesAs(array $expected, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -52,7 +52,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\ExtractorBuilderAssertTrait::assertBuildsExtractorExtractsLike() */
-    protected function assertBuilderProducesPipelineExtractingLike(iterable $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineExtractingLike(iterable $expected, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -64,13 +64,13 @@ trait BuilderAssertTrait
             \E_USER_DEPRECATED
         );
 
-        $this->assertThat($builder, new BuilderProducesCodeThat(
+        static::assertThat($builder, new BuilderProducesCodeThat(
             new IteratesLike($expected, fn ($item) => new IsEqual($item))
         ), $message);
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\ExtractorBuilderAssertTrait::assertBuildsExtractorExtractsExactly() */
-    protected function assertBuilderProducesPipelineExtractingExactly(iterable $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineExtractingExactly(iterable $expected, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -82,13 +82,13 @@ trait BuilderAssertTrait
             \E_USER_DEPRECATED
         );
 
-        $this->assertThat($builder, new BuilderProducesCodeThat(
+        static::assertThat($builder, new BuilderProducesCodeThat(
             new IteratesLike($expected, fn ($item) => new IsIdentical($item))
         ), $message);
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\ExtractorBuilderAssertTrait::assertBuildsExtractorDoesNotExtractLike() */
-    protected function assertBuilderProducesPipelineNotExtractingLike(iterable $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineNotExtractingLike(iterable $expected, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -100,7 +100,7 @@ trait BuilderAssertTrait
             \E_USER_DEPRECATED
         );
 
-        $this->assertThat($builder, new LogicalNot(
+        static::assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
                 new IteratesLike($expected, fn ($item) => new IsEqual($item))
             ),
@@ -108,7 +108,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\ExtractorBuilderAssertTrait::assertBuildsExtractorDoesNotExtractExactly() */
-    protected function assertBuilderProducesPipelineNotExtractingExactly(iterable $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineNotExtractingExactly(iterable $expected, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -120,7 +120,7 @@ trait BuilderAssertTrait
             \E_USER_DEPRECATED
         );
 
-        $this->assertThat($builder, new LogicalNot(
+        static::assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
                 new IteratesLike($expected, fn ($item) => new IsIdentical($item))
             ),
@@ -128,7 +128,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\TransformerBuilderAssertTrait::assertBuildsTransformerTransformsLike */
-    protected function assertBuilderProducesPipelineTransformingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineTransformingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -144,7 +144,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\TransformerBuilderAssertTrait::assertBuildsTransformerTransformsExactly */
-    protected function assertBuilderProducesPipelineTransformingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineTransformingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -160,7 +160,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\TransformerBuilderAssertTrait::assertBuildsTransformerDoesNotTransformLike */
-    protected function assertBuilderProducesPipelineNotTransformingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineNotTransformingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -176,7 +176,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\TransformerBuilderAssertTrait::assertBuildsTransformerDoesNotTransformExactly */
-    protected function assertBuilderProducesPipelineNotTransformingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineNotTransformingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -192,7 +192,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderBuilderAssertTrait::assertBuildsLoaderLoadsLike */
-    protected function assertBuilderProducesPipelineLoadingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineLoadingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -208,7 +208,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderBuilderAssertTrait::assertBuildsLoaderLoadsExactly */
-    protected function assertBuilderProducesPipelineLoadingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineLoadingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -224,7 +224,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderBuilderAssertTrait::assertBuildsLoaderDoesNotLoadLike */
-    protected function assertBuilderProducesPipelineNotLoadingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineNotLoadingLike(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -240,7 +240,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderBuilderAssertTrait::assertBuildsLoaderDoesNotLoadExactly */
-    protected function assertBuilderProducesPipelineNotLoadingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesPipelineNotLoadingExactly(iterable $expected, iterable $actual, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -256,7 +256,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderBuilderAssertTrait::assertBuildsLoaderProducesFile */
-    protected function assertBuilderProducesLoaderWritingFile(string $expected, array $source, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesLoaderWritingFile(string $expected, array $source, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -272,7 +272,7 @@ trait BuilderAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderBuilderAssertTrait::assertBuildsLoaderDoesNotProduceFile */
-    protected function assertBuilderProducesLoaderNotWritingFile(string $expected, array $source, DefaultBuilder $builder, string $message = '')
+    protected function assertBuilderProducesLoaderNotWritingFile(string $expected, array $source, DefaultBuilder $builder, string $message = ''): void
     {
         @trigger_error(
             sprintf(

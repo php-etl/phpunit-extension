@@ -7,7 +7,7 @@ namespace Kiboko\Component\PHPUnitExtension\Mock;
 use PhpParser\Builder;
 use PhpParser\Node;
 
-final class FileSystemBuilder implements Builder
+final readonly class FileSystemBuilder implements Builder
 {
     public function __construct(
         private string $mockedFilesystem,

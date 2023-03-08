@@ -18,20 +18,21 @@ final class PipelineExtractsLike extends Constraint
 
     /** @param list<Type> $expected */
     public function __construct(
-        private iterable $expected,
+        private readonly iterable $expected,
         callable $itemConstraintFactory,
-        private PipelineRunnerInterface $runner,
+        private readonly PipelineRunnerInterface $runner,
     ) {
         $this->itemConstraintFactory = $itemConstraintFactory;
     }
 
     /**
      * @param list<Type> $iterable
+     *
      * @return \Iterator<Type>
      */
     private function asIterator(iterable $iterable): \Iterator
     {
-        if (is_array($iterable)) {
+        if (\is_array($iterable)) {
             return new \ArrayIterator($iterable);
         }
         if (!$iterable instanceof \Iterator && $iterable instanceof \Traversable) {
@@ -44,11 +45,12 @@ final class PipelineExtractsLike extends Constraint
         throw new \InvalidArgumentException();
     }
 
-    /** @return \Generator<mixed, null|Type, null|Type, void> */
+    /** @return \Generator<mixed, Type|null, Type|null, void> */
     private function passThroughCoroutine(): \Generator
     {
         $line = yield;
-        while ($line = yield $line);
+        while ($line = yield $line) {
+        }
     }
 
     public function matches($other): bool
@@ -77,7 +79,7 @@ final class PipelineExtractsLike extends Constraint
         foreach ($both as [$expectedItem, $actualItem]) {
             ++$index;
             $constraint = ($this->itemConstraintFactory)($expectedItem);
-            $constraint->evaluate($actualItem, sprintf("Values of Iteration #%d", $index)) !== true;
+            true !== $constraint->evaluate($actualItem, sprintf('Values of Iteration #%d', $index));
         }
 
         return true;
