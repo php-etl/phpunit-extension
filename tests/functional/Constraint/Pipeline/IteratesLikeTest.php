@@ -3,13 +3,14 @@
 namespace functional\Constraint\Pipeline;
 
 use Kiboko\Component\PHPUnitExtension\Constraint\Pipeline\IteratesLike;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Constraint\IsEqual;
 use PHPUnit\Framework\Constraint\LogicalNot;
 use PHPUnit\Framework\TestCase;
 
 final class IteratesLikeTest extends TestCase
 {
-    private $fixtures = <<<JSON
+    private static string $fixtures = <<<JSON
             {"firstName":"Margot","lastName":"Lamy","email":"denis.marcelle@example.net","address":"39, chemin Huet\\r\\n76 185 Gomez","postcode":"84 138","city":"Legrand"}
             {"firstName":"Dominique","lastName":"Garnier","email":"christine87@example.net","address":"46, chemin de Hernandez\\r\\n52 853 Munoz","postcode":"95 866","city":"BuissonBourg"}
             {"firstName":"Mich\\u00e8le","lastName":"Martins","email":"valerie.lopez@example.org","address":"374, rue de Gauthier\\r\\n82315 LaineBourg","postcode":"89 150","city":"Aubry"}
@@ -80,22 +81,22 @@ final class IteratesLikeTest extends TestCase
             {"firstName":"No\\u00e9mi","lastName":"Guillaume","email":"tgauthier@example.net","address":"757, rue Mich\\u00e8le Gay\\r\\n65212 Leroux","postcode":"95030","city":"Ruiz"}
             JSON;
 
-    private function fromJSONStream(string $source): iterable
+    private static function fromJSONStream(string $source): iterable
     {
         $file = new \SplFileObject('php://temp', 'r+');
         $file->fwrite($source);
         $file->fseek(0, SEEK_SET);
 
         while (!$file->eof()) {
-            yield \json_decode($file->fgets(), true);
+            yield \json_decode($file->fgets(), true, 512, JSON_THROW_ON_ERROR);
         }
     }
 
-    public function successfulDataProvider()
+    public static function successfulDataProvider(): \Generator
     {
         yield [
-            $this->fromJSONStream($this->fixtures),
-            $this->fromJSONStream($this->fixtures),
+            IteratesLikeTest::fromJSONStream(self::$fixtures),
+            IteratesLikeTest::fromJSONStream(self::$fixtures),
         ];
 
         yield [
@@ -104,7 +105,7 @@ final class IteratesLikeTest extends TestCase
         ];
     }
 
-    /** @dataProvider successfulDataProvider */
+    #[DataProvider('successfulDataProvider')]
     public function testExtractionSucceeds(iterable $expected, iterable $actual)
     {
         $constraint = new IteratesLike($expected, fn ($value) => new IsEqual($value));
@@ -114,7 +115,7 @@ final class IteratesLikeTest extends TestCase
 
     public function testExtractionFails()
     {
-        $constraint = new IteratesLike($this->fromJSONStream($this->fixtures), fn ($value) => new LogicalNot(new IsEqual($value)));
+        $constraint = new IteratesLike(IteratesLikeTest::fromJSONStream(self::$fixtures), fn ($value) => new LogicalNot(new IsEqual($value)));
 
         $this->assertThat([], $constraint);
     }

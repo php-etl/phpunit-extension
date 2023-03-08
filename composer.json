@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": "^8.2",
-        "phpunit/phpunit": "^10",
+        "phpunit/phpunit": "^10.0",
         "nikic/php-parser": "^4.10",
         "php-etl/pipeline-contracts": "^0.3.0",
         "php-http/message": "^1.11",
