@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Builder;
 
+use Kiboko\Component\PHPUnitExtension\Constraint\Builder\Exception\InvalidArgumentException;
 use PhpParser\Builder;
 use PhpParser\Node;
 use PhpParser\PrettyPrinter;
 use PHPUnit\Framework\Constraint\UnaryOperator;
-use PHPUnit\Framework\InvalidArgumentException;
 
 final class BuilderProducesCodeThat extends UnaryOperator
 {
