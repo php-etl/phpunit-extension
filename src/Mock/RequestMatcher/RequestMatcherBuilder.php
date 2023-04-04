@@ -9,8 +9,8 @@ use PhpParser\Node;
 final class RequestMatcherBuilder implements RequestMatcherBuilderInterface
 {
     public function __construct(
-        private ?string $path = null,
-        private ?string $host = null,
+        private readonly ?string $path = null,
+        private readonly ?string $host = null,
         private $methods = [],
         private $schemes = []
     ) {
@@ -22,11 +22,11 @@ final class RequestMatcherBuilder implements RequestMatcherBuilderInterface
             class: new Node\Name\FullyQualified(\Http\Message\RequestMatcher\RequestMatcher::class),
             args: [
                 new Node\Arg(
-                    value: $this->path !== null ? new Node\Scalar\String_($this->path) : new Node\Expr\ConstFetch(new Node\Name('null')),
+                    value: null !== $this->path ? new Node\Scalar\String_($this->path) : new Node\Expr\ConstFetch(new Node\Name('null')),
                     name: new Node\Identifier('path'),
                 ),
                 new Node\Arg(
-                    value: $this->host !== null ? new Node\Scalar\String_($this->host) : new Node\Expr\ConstFetch(new Node\Name('null')),
+                    value: null !== $this->host ? new Node\Scalar\String_($this->host) : new Node\Expr\ConstFetch(new Node\Name('null')),
                     name: new Node\Identifier('host'),
                 ),
                 new Node\Arg(
@@ -38,7 +38,7 @@ final class RequestMatcherBuilder implements RequestMatcherBuilderInterface
                             $this->methods
                         ),
                         attributes: [
-                            'kind' => Node\Expr\Array_::KIND_SHORT
+                            'kind' => Node\Expr\Array_::KIND_SHORT,
                         ],
                     ),
                     name: new Node\Identifier('methods'),
@@ -52,7 +52,7 @@ final class RequestMatcherBuilder implements RequestMatcherBuilderInterface
                             $this->schemes
                         ),
                         attributes: [
-                            'kind' => Node\Expr\Array_::KIND_SHORT
+                            'kind' => Node\Expr\Array_::KIND_SHORT,
                         ],
                     ),
                     name: new Node\Identifier('schemes'),

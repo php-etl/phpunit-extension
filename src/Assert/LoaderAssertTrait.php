@@ -16,40 +16,41 @@ use PHPUnit\Framework\Constraint\LogicalNot;
 trait LoaderAssertTrait
 {
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
+
     abstract public function pipelineRunner(): PipelineRunnerInterface;
 
-    protected function assertLoaderLoadsLike(iterable $expected, iterable $input, LoaderInterface $loader, string $message = '')
+    protected function assertLoaderLoadsLike(iterable $expected, iterable $input, LoaderInterface $loader, string $message = ''): void
     {
-        $this->assertThat($loader, new PipelineLoadsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner()), $message);
+        static::assertThat($loader, new PipelineLoadsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner()), $message);
     }
 
-    protected function assertLoaderDoesNotLoadLike(iterable $expected, iterable $input, LoaderInterface $loader, string $message = '')
+    protected function assertLoaderDoesNotLoadLike(iterable $expected, iterable $input, LoaderInterface $loader, string $message = ''): void
     {
-        $this->assertThat($loader, new LogicalNot(
+        static::assertThat($loader, new LogicalNot(
             new PipelineLoadsLike($expected, $input, fn ($item) => new IsEqual($item), $this->pipelineRunner())
         ), $message);
     }
 
-    protected function assertLoaderLoadsExactly(iterable $expected, iterable $input, LoaderInterface $loader, string $message = '')
+    protected function assertLoaderLoadsExactly(iterable $expected, iterable $input, LoaderInterface $loader, string $message = ''): void
     {
-        $this->assertThat($loader, new PipelineLoadsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner()), $message);
+        static::assertThat($loader, new PipelineLoadsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner()), $message);
     }
 
-    protected function assertLoaderDoesNotLoadExactly(iterable $expected, iterable $input, LoaderInterface $loader, string $message = '')
+    protected function assertLoaderDoesNotLoadExactly(iterable $expected, iterable $input, LoaderInterface $loader, string $message = ''): void
     {
-        $this->assertThat($loader, new LogicalNot(
+        static::assertThat($loader, new LogicalNot(
             new PipelineLoadsLike($expected, $input, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
         ), $message);
     }
 
-    protected function assertLoaderProducesFile(string $expected, iterable $input, LoaderInterface $loader, string $message = '')
+    protected function assertLoaderProducesFile(string $expected, iterable $input, LoaderInterface $loader, string $message = ''): void
     {
-        $this->assertThat($loader, new PipelineWritesFile($input, $expected, $this->pipelineRunner()), $message);
+        static::assertThat($loader, new PipelineWritesFile($input, $expected, $this->pipelineRunner()), $message);
     }
 
-    protected function assertLoaderDoesNotProduceFile(string $expected, iterable $input, LoaderInterface $loader, string $message = '')
+    protected function assertLoaderDoesNotProduceFile(string $expected, iterable $input, LoaderInterface $loader, string $message = ''): void
     {
-        $this->assertThat($loader, new LogicalNot(
+        static::assertThat($loader, new LogicalNot(
             new PipelineWritesFile($input, $expected, $this->pipelineRunner()),
         ), $message);
     }

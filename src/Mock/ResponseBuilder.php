@@ -7,7 +7,7 @@ namespace Kiboko\Component\PHPUnitExtension\Mock;
 use PhpParser\Builder;
 use PhpParser\Node;
 
-final class ResponseBuilder implements Builder
+final readonly class ResponseBuilder implements Builder
 {
     public function __construct(
         private string $path,

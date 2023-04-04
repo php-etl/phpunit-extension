@@ -18,19 +18,20 @@ trait ExtractorBuilderAssertTrait
     use BuilderAssertTrait;
 
     abstract public static function assertThat($value, Constraint $constraint, string $message = ''): void;
+
     abstract public function pipelineRunner(): PipelineRunnerInterface;
 
-    protected function assertBuildsExtractorExtractsLike(iterable $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsExtractorExtractsLike(iterable $expected, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new BuilderProducesCodeThat(
+        static::assertThat($builder, new BuilderProducesCodeThat(
             $this->getBuilderCompilePath(),
             new PipelineExtractsLike($expected, fn ($item) => new IsEqual($item), $this->pipelineRunner())
         ), $message);
     }
 
-    protected function assertBuildsExtractorDoesNotExtractLike(iterable $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsExtractorDoesNotExtractLike(iterable $expected, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new LogicalNot(
+        static::assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
                 $this->getBuilderCompilePath(),
                 new PipelineExtractsLike($expected, fn ($item) => new IsEqual($item), $this->pipelineRunner())
@@ -38,17 +39,17 @@ trait ExtractorBuilderAssertTrait
         ), $message);
     }
 
-    protected function assertBuildsExtractorExtractsExactly(iterable $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsExtractorExtractsExactly(iterable $expected, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new BuilderProducesCodeThat(
+        static::assertThat($builder, new BuilderProducesCodeThat(
             $this->getBuilderCompilePath(),
             new PipelineExtractsLike($expected, fn ($item) => new IsIdentical($item), $this->pipelineRunner())
         ), $message);
     }
 
-    protected function assertBuildsExtractorDoesNotExtractExactly(iterable $expected, DefaultBuilder $builder, string $message = '')
+    protected function assertBuildsExtractorDoesNotExtractExactly(iterable $expected, DefaultBuilder $builder, string $message = ''): void
     {
-        $this->assertThat($builder, new LogicalNot(
+        static::assertThat($builder, new LogicalNot(
             new BuilderProducesCodeThat(
                 $this->getBuilderCompilePath(),
                 new PipelineExtractsLike($expected, fn ($item) => new IsIdentical($item), $this->pipelineRunner())

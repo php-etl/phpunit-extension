@@ -17,7 +17,7 @@ trait PipelineAssertTrait
     use Assert\PipelineAssertTrait;
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\ExtractorAssertTrait::assertExtractorExtractsLike */
-    protected function assertPipelineExtractsLike(iterable $expected, ExtractorInterface $actual, $message = '')
+    protected function assertPipelineExtractsLike(iterable $expected, ExtractorInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -33,7 +33,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\ExtractorAssertTrait::assertExtractorDoesNotExtractLike */
-    protected function assertPipelineNotExtractsLike(iterable $expected, ExtractorInterface $actual, $message = '')
+    protected function assertPipelineNotExtractsLike(iterable $expected, ExtractorInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -49,7 +49,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\ExtractorAssertTrait::assertExtractorExtractsExactly */
-    protected function assertPipelineExtractsExactly(iterable $expected, ExtractorInterface $actual, $message = '')
+    protected function assertPipelineExtractsExactly(iterable $expected, ExtractorInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -65,7 +65,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\ExtractorAssertTrait::assertExtractorDoesNotExtractExactly */
-    protected function assertPipelineNotExtractsExactly(iterable $expected, ExtractorInterface $actual, $message = '')
+    protected function assertPipelineNotExtractsExactly(iterable $expected, ExtractorInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -81,7 +81,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\TransformerAssertTrait::assertTransformerTransformsLike */
-    protected function assertPipelineTransformsLike(iterable $expected, iterable $source, TransformerInterface $actual, $message = '')
+    protected function assertPipelineTransformsLike(iterable $expected, iterable $source, TransformerInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -97,7 +97,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\TransformerAssertTrait::assertTransformerTransformsExactly */
-    protected function assertPipelineTransformsExactly(iterable $expected, iterable $source, TransformerInterface $actual, $message = '')
+    protected function assertPipelineTransformsExactly(iterable $expected, iterable $source, TransformerInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -113,7 +113,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\TransformerAssertTrait::assertTransformerDoesNotTransformLike */
-    protected function assertPipelineNotTransformsLike(iterable $expected, iterable $source, TransformerInterface $actual, $message = '')
+    protected function assertPipelineNotTransformsLike(iterable $expected, iterable $source, TransformerInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -129,7 +129,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\TransformerAssertTrait::assertTransformerDoesNotTransformExactly */
-    protected function assertPipelineNotTransformsExactly(iterable $expected, iterable $source, TransformerInterface $actual, $message = '')
+    protected function assertPipelineNotTransformsExactly(iterable $expected, iterable $source, TransformerInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -145,7 +145,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderAssertTrait::assertLoaderLoadsLike */
-    protected function assertPipelineLoadsLike(iterable $expected, iterable $source, LoaderInterface $actual, $message = '')
+    protected function assertPipelineLoadsLike(iterable $expected, iterable $source, LoaderInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -161,7 +161,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderAssertTrait::assertLoaderLoadsExactly */
-    protected function assertPipelineLoadsExactly(iterable $expected, iterable $source, LoaderInterface $actual, $message = '')
+    protected function assertPipelineLoadsExactly(iterable $expected, iterable $source, LoaderInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -177,7 +177,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderAssertTrait::assertLoaderDoesNotLoadLike */
-    protected function assertPipelineNotLoadsLike(iterable $expected, iterable $source, LoaderInterface $actual, $message = '')
+    protected function assertPipelineNotLoadsLike(iterable $expected, iterable $source, LoaderInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -193,7 +193,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderAssertTrait::assertLoaderDoesNotLoadExactly */
-    protected function assertPipelineNotLoadsExactly(iterable $expected, iterable $source, LoaderInterface $actual, $message = '')
+    protected function assertPipelineNotLoadsExactly(iterable $expected, iterable $source, LoaderInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -209,7 +209,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderAssertTrait::assertLoaderProducesFile */
-    protected function assertPipelineWritesFile(string $expected, iterable $source, LoaderInterface $actual, $message = '')
+    protected function assertPipelineWritesFile(string $expected, iterable $source, LoaderInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(
@@ -225,7 +225,7 @@ trait PipelineAssertTrait
     }
 
     /** @deprecated Since php-etl/phpunit-extension version 0.2, see Assert\LoaderAssertTrait::assertLoaderDoesNotProduceFile */
-    protected function assertPipelineNotWritesFile(string $expected, iterable $source, LoaderInterface $actual, $message = '')
+    protected function assertPipelineNotWritesFile(string $expected, iterable $source, LoaderInterface $actual, $message = ''): void
     {
         @trigger_error(
             sprintf(

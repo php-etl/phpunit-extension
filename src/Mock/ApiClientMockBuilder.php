@@ -14,8 +14,8 @@ final class ApiClientMockBuilder implements Builder
     private Node\Expr $node;
 
     public function __construct(
-        private string $mockedClientBuilder,
-        private ?array $mockedArgs = []
+        private readonly string $mockedClientBuilder,
+        private readonly ?array $mockedArgs = []
     ) {
         $this->node = new Node\Expr\New_(
             class: new Node\Name\FullyQualified($this->mockedClientBuilder),

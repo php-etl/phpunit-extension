@@ -14,7 +14,7 @@ final class IteratesLike extends Constraint
 
     /** @param list<Type> $expected */
     public function __construct(
-        private iterable $expected,
+        private readonly iterable $expected,
         callable $itemConstraintFactory,
     ) {
         $this->itemConstraintFactory = $itemConstraintFactory;
@@ -22,11 +22,12 @@ final class IteratesLike extends Constraint
 
     /**
      * @param list<Type> $iterable
+     *
      * @return \Iterator<Type>
      */
     private function asIterator(iterable $iterable): \Iterator
     {
-        if (is_array($iterable)) {
+        if (\is_array($iterable)) {
             return new \ArrayIterator($iterable);
         }
         if (!$iterable instanceof \Iterator && $iterable instanceof \Traversable) {
@@ -50,7 +51,7 @@ final class IteratesLike extends Constraint
         foreach ($both as [$expectedItem, $actualItem]) {
             ++$index;
             $constraint = ($this->itemConstraintFactory)($expectedItem);
-            $constraint->evaluate($actualItem, sprintf("Values of Iteration #%d", $index)) !== true;
+            true !== $constraint->evaluate($actualItem, sprintf('Values of Iteration #%d', $index));
         }
 
         return true;
