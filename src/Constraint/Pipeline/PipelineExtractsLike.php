@@ -38,6 +38,7 @@ final class PipelineExtractsLike extends Constraint
         if ($iterable instanceof \Iterator) {
             return $iterable;
         }
+
         return new \IteratorIterator($iterable);
     }
 

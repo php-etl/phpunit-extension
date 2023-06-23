@@ -43,6 +43,7 @@ final class PipelineTransformsLike extends Constraint
         if ($iterable instanceof \Iterator) {
             return $iterable;
         }
+
         return new \IteratorIterator($iterable);
     }
 
