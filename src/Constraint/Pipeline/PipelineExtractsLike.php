@@ -35,14 +35,10 @@ final class PipelineExtractsLike extends Constraint
         if (\is_array($iterable)) {
             return new \ArrayIterator($iterable);
         }
-        if (!$iterable instanceof \Iterator && $iterable instanceof \Traversable) {
-            return new \IteratorIterator($iterable);
-        }
         if ($iterable instanceof \Iterator) {
             return $iterable;
         }
-
-        throw new \InvalidArgumentException();
+        return new \IteratorIterator($iterable);
     }
 
     /** @return \Generator<mixed, Type|null, Type|null, void> */
@@ -82,7 +78,7 @@ final class PipelineExtractsLike extends Constraint
             true !== $constraint->evaluate($actualItem, sprintf('Values of Iteration #%d', $index));
         }
 
-        return true;
+        return !$iterator->valid();
     }
 
     protected function failureDescription($other): string

@@ -30,14 +30,10 @@ final class IteratesLike extends Constraint
         if (\is_array($iterable)) {
             return new \ArrayIterator($iterable);
         }
-        if (!$iterable instanceof \Iterator && $iterable instanceof \Traversable) {
-            return new \IteratorIterator($iterable);
-        }
         if ($iterable instanceof \Iterator) {
             return $iterable;
         }
-
-        throw new \InvalidArgumentException();
+        return new \IteratorIterator($iterable);
     }
 
     public function matches($other): bool
@@ -45,7 +41,7 @@ final class IteratesLike extends Constraint
         $both = new \MultipleIterator(\MultipleIterator::MIT_NEED_ANY);
 
         $both->attachIterator($this->asIterator($this->expected));
-        $both->attachIterator($this->asIterator($other));
+        $both->attachIterator($iterator = $this->asIterator($other));
 
         $index = 0;
         foreach ($both as [$expectedItem, $actualItem]) {
@@ -54,7 +50,7 @@ final class IteratesLike extends Constraint
             true !== $constraint->evaluate($actualItem, sprintf('Values of Iteration #%d', $index));
         }
 
-        return true;
+        return !$iterator->valid();
     }
 
     protected function failureDescription($other): string
