@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kiboko\Component\PHPUnitExtension\Mock\RequestMatcher;
 
+use Http\Message\RequestMatcher;
 use PhpParser\Node;
 
 final class RequestMatcherBuilder implements RequestMatcherBuilderInterface
@@ -19,7 +20,7 @@ final class RequestMatcherBuilder implements RequestMatcherBuilderInterface
     public function getNode(): Node
     {
         return new Node\Expr\New_(
-            class: new Node\Name\FullyQualified(\Http\Message\RequestMatcher\RequestMatcher::class),
+            class: new Node\Name\FullyQualified(RequestMatcher::class),
             args: [
                 new Node\Arg(
                     value: null !== $this->path ? new Node\Scalar\String_($this->path) : new Node\Expr\ConstFetch(new Node\Name('null')),

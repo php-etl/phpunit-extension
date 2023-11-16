@@ -9,6 +9,7 @@ use Kiboko\Component\PHPUnitExtension\Mock;
 use PhpParser\Builder;
 use PhpParser\Node;
 
+/** @deprecated This should be moved to php-etl/akeneo-plugin as it is very specific to Akeneo plugin */
 final class ApiClientMockBuilder implements Builder
 {
     private Node\Expr $node;
