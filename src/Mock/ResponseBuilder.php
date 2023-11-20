@@ -11,8 +11,7 @@ final readonly class ResponseBuilder implements Builder
 {
     public function __construct(
         private string $path,
-    ) {
-    }
+    ) {}
 
     public function getNode(): Node
     {

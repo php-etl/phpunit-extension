@@ -14,8 +14,7 @@ final class RequestMatcherBuilder implements RequestMatcherBuilderInterface
         private readonly ?string $host = null,
         private $methods = [],
         private $schemes = []
-    ) {
-    }
+    ) {}
 
     public function getNode(): Node
     {

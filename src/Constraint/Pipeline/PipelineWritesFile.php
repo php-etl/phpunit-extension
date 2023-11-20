@@ -22,8 +22,7 @@ final class PipelineWritesFile extends Constraint
         private readonly iterable $source,
         private readonly string $expected,
         private readonly PipelineRunnerInterface $runner,
-    ) {
-    }
+    ) {}
 
     /**
      * @param list<Type> $iterable

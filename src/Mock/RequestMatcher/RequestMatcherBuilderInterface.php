@@ -6,6 +6,4 @@ namespace Kiboko\Component\PHPUnitExtension\Mock\RequestMatcher;
 
 use PhpParser\Builder;
 
-interface RequestMatcherBuilderInterface extends Builder
-{
-}
+interface RequestMatcherBuilderInterface extends Builder {}
