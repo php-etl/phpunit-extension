@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
 use Kiboko\Contract\Pipeline\ExtractorInterface;
-use Kiboko\Contract\Pipeline\NullRejection;
-use Kiboko\Contract\Pipeline\NullState;
+use Kiboko\Contract\Pipeline\NullStepRejection;
+use Kiboko\Contract\Pipeline\NullStepState;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 
@@ -67,8 +67,8 @@ final class PipelineExtractsLike extends Constraint
         $iterator = $this->runner->run(
             $this->asIterator($extract),
             $this->passThroughCoroutine(),
-            new NullRejection(),
-            new NullState(),
+            new NullStepRejection(),
+            new NullStepState(),
         );
         $both->attachIterator($iterator);
 
