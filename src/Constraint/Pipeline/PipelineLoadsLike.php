@@ -6,8 +6,8 @@ namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
-use Kiboko\Contract\Pipeline\NullRejection;
-use Kiboko\Contract\Pipeline\NullState;
+use Kiboko\Contract\Pipeline\NullStepRejection;
+use Kiboko\Contract\Pipeline\NullStepState;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 
@@ -47,7 +47,7 @@ final class PipelineLoadsLike extends Constraint
         return new \IteratorIterator($iterable);
     }
 
-    public function matches($other): bool
+    public function matches(mixed $other): bool
     {
         $both = new \MultipleIterator(\MultipleIterator::MIT_NEED_ANY);
 
@@ -67,8 +67,8 @@ final class PipelineLoadsLike extends Constraint
                 $this->runner->run(
                     $this->asIterator($this->source),
                     $other->load(),
-                    new NullRejection(),
-                    new NullState(),
+                    new NullStepRejection(),
+                    new NullStepState(),
                 )
             );
             $iterator->append(
@@ -78,16 +78,16 @@ final class PipelineLoadsLike extends Constraint
                         yield;
                         yield $other->flush();
                     })(),
-                    new NullRejection(),
-                    new NullState(),
+                    new NullStepRejection(),
+                    new NullStepState(),
                 )
             );
         } else {
             $iterator = $this->runner->run(
                 $this->asIterator($this->source),
                 $other->load(),
-                new NullRejection(),
-                new NullState(),
+                new NullStepRejection(),
+                new NullStepState(),
             );
         }
         $both->attachIterator($iterator);
@@ -102,7 +102,7 @@ final class PipelineLoadsLike extends Constraint
         return !$iterator->valid();
     }
 
-    protected function failureDescription($other): string
+    protected function failureDescription(mixed $other): string
     {
         return sprintf(
             '%s pipeline loads like %s',

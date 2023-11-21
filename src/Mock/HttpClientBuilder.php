@@ -16,8 +16,7 @@ final class HttpClientBuilder implements Builder
 
     public function __construct(
         private readonly Mock\ResponseFactoryBuilder $responseFactory
-    ) {
-    }
+    ) {}
 
     public function expectResponse(
         Mock\RequestMatcher\RequestMatcherBuilderInterface $requestMatcher,

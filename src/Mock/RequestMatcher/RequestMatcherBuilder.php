@@ -7,17 +7,20 @@ namespace Kiboko\Component\PHPUnitExtension\Mock\RequestMatcher;
 use Http\Message\RequestMatcher;
 use PhpParser\Node;
 
-final class RequestMatcherBuilder implements RequestMatcherBuilderInterface
+final readonly class RequestMatcherBuilder implements RequestMatcherBuilderInterface
 {
+    /**
+     * @param list<string> $methods
+     * @param list<string> $schemes
+     */
     public function __construct(
-        private readonly ?string $path = null,
-        private readonly ?string $host = null,
-        private $methods = [],
-        private $schemes = []
-    ) {
-    }
+        private ?string $path = null,
+        private ?string $host = null,
+        private array $methods = [],
+        private array $schemes = []
+    ) {}
 
-    public function getNode(): Node
+    public function getNode(): Node\Expr
     {
         return new Node\Expr\New_(
             class: new Node\Name\FullyQualified(RequestMatcher::class),

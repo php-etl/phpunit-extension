@@ -6,8 +6,8 @@ namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
 use Kiboko\Contract\Pipeline\FlushableInterface;
 use Kiboko\Contract\Pipeline\LoaderInterface;
-use Kiboko\Contract\Pipeline\NullRejection;
-use Kiboko\Contract\Pipeline\NullState;
+use Kiboko\Contract\Pipeline\NullStepRejection;
+use Kiboko\Contract\Pipeline\NullStepState;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\Constraint\FileExists;
@@ -22,8 +22,7 @@ final class PipelineWritesFile extends Constraint
         private readonly iterable $source,
         private readonly string $expected,
         private readonly PipelineRunnerInterface $runner,
-    ) {
-    }
+    ) {}
 
     /**
      * @param list<Type> $iterable
@@ -42,7 +41,7 @@ final class PipelineWritesFile extends Constraint
         return new \IteratorIterator($iterable);
     }
 
-    public function matches($other): bool
+    public function matches(mixed $other): bool
     {
         if (!$other instanceof LoaderInterface) {
             $this->fail($other, strtr('Expected an instance of %expected%, but got %actual%.', [
@@ -58,8 +57,8 @@ final class PipelineWritesFile extends Constraint
                 $this->runner->run(
                     $this->asIterator($this->source),
                     $other->load(),
-                    new NullRejection(),
-                    new NullState(),
+                    new NullStepRejection(),
+                    new NullStepState(),
                 )
             );
             $iterator->append(
@@ -69,20 +68,18 @@ final class PipelineWritesFile extends Constraint
                         yield;
                         yield $other->flush();
                     })(),
-                    new NullRejection(),
-                    new NullState(),
+                    new NullStepRejection(),
+                    new NullStepState(),
                 )
             );
         } else {
             $iterator = $this->runner->run(
                 $this->asIterator($this->source),
                 $other->load(),
-                new NullRejection(),
-                new NullState(),
+                new NullStepRejection(),
+                new NullStepState(),
             );
         }
-
-        iterator_count($iterator);
 
         $constraint = new FileExists();
         $constraint->evaluate($this->expected);
@@ -90,7 +87,7 @@ final class PipelineWritesFile extends Constraint
         return !$iterator->valid();
     }
 
-    protected function failureDescription($other): string
+    protected function failureDescription(mixed $other): string
     {
         return sprintf(
             '%s pipeline writes file %s',

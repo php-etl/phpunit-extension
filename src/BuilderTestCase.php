@@ -25,6 +25,10 @@ abstract class BuilderTestCase extends TestCase
 
     protected function getBuilderCompilePath(): string
     {
+        if ($this->fs === null) {
+            throw new \RuntimeException('The virtual file system was not initialized. The '.__METHOD__.' method should be called after the '.static::class.'::setUp() method was called and after the '.static::class.'::tearDown() method is called.');
+        }
+
         return $this->fs->url();
     }
 

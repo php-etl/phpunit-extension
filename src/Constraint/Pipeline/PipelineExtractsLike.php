@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
+use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
-use Kiboko\Contract\Pipeline\NullRejection;
-use Kiboko\Contract\Pipeline\NullState;
+use Kiboko\Contract\Pipeline\NullStepRejection;
+use Kiboko\Contract\Pipeline\NullStepState;
 use Kiboko\Contract\Pipeline\PipelineRunnerInterface;
 use PHPUnit\Framework\Constraint\Constraint;
 
@@ -26,9 +27,11 @@ final class PipelineExtractsLike extends Constraint
     }
 
     /**
-     * @param list<Type> $iterable
+     * @template ItemType
      *
-     * @return \Iterator<Type>
+     * @param list<ItemType> $iterable
+     *
+     * @return \Iterator<ItemType>
      */
     private function asIterator(iterable $iterable): \Iterator
     {
@@ -50,7 +53,7 @@ final class PipelineExtractsLike extends Constraint
         }
     }
 
-    public function matches($other): bool
+    public function matches(mixed $other): bool
     {
         $both = new \MultipleIterator(\MultipleIterator::MIT_NEED_ANY);
 
@@ -67,8 +70,8 @@ final class PipelineExtractsLike extends Constraint
         $iterator = $this->runner->run(
             $this->asIterator($extract),
             $this->passThroughCoroutine(),
-            new NullRejection(),
-            new NullState(),
+            new NullStepRejection(),
+            new NullStepState(),
         );
         $both->attachIterator($iterator);
 
@@ -82,7 +85,7 @@ final class PipelineExtractsLike extends Constraint
         return !$iterator->valid();
     }
 
-    protected function failureDescription($other): string
+    protected function failureDescription(mixed $other): string
     {
         return sprintf(
             '%s pipeline extracts like %s',

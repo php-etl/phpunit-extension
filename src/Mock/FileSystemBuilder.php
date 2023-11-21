@@ -11,8 +11,7 @@ final readonly class FileSystemBuilder implements Builder
 {
     public function __construct(
         private string $mockedFilesystem,
-    ) {
-    }
+    ) {}
 
     public function getNode(): Node\Expr
     {

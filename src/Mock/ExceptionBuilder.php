@@ -19,17 +19,15 @@ final class ExceptionBuilder implements Builder
         $this->arguments = $arguments;
     }
 
-    public function getNode(): Node
+    public function getNode(): Node\Expr
     {
         return new Node\Expr\New_(
             class: new Node\Name\FullyQualified($this->class),
-            args: [
-                array_map(
-                    fn (Node\Expr $value, int|string $key) => !\is_string($key) ? new Node\Arg(value: $value) : new Node\Arg(value: $value, name: new Node\Identifier($key)),
-                    $this->arguments,
-                    array_keys($this->arguments),
-                ),
-            ]
+            args: array_map(
+                fn (Node\Expr $value, int|string $key) => !\is_string($key) ? new Node\Arg(value: $value) : new Node\Arg(value: $value, name: new Node\Identifier($key)),
+                $this->arguments,
+                array_keys($this->arguments),
+            ),
         );
     }
 }

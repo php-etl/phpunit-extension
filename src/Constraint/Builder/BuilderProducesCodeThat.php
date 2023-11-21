@@ -14,7 +14,7 @@ final class BuilderProducesCodeThat extends UnaryOperator
 {
     public function __construct(
         private readonly string $builderCompilePath,
-        $constraint,
+        mixed $constraint,
     ) {
         parent::__construct($constraint);
     }

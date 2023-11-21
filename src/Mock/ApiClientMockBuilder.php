@@ -14,9 +14,10 @@ final class ApiClientMockBuilder implements Builder
 {
     private Node\Expr $node;
 
+    /** @param array<Node\Arg|Node\VariadicPlaceholder> $mockedArgs */
     public function __construct(
         private readonly string $mockedClientBuilder,
-        private readonly ?array $mockedArgs = []
+        private readonly array $mockedArgs = []
     ) {
         $this->node = new Node\Expr\New_(
             class: new Node\Name\FullyQualified($this->mockedClientBuilder),
