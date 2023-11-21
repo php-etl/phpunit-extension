@@ -50,7 +50,7 @@ final class PipelineExtractsLike extends Constraint
         }
     }
 
-    public function matches($other): bool
+    public function matches(mixed $other): bool
     {
         $both = new \MultipleIterator(\MultipleIterator::MIT_NEED_ANY);
 
@@ -82,7 +82,7 @@ final class PipelineExtractsLike extends Constraint
         return !$iterator->valid();
     }
 
-    protected function failureDescription($other): string
+    protected function failureDescription(mixed $other): string
     {
         return sprintf(
             '%s pipeline extracts like %s',

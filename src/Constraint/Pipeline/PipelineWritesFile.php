@@ -41,7 +41,7 @@ final class PipelineWritesFile extends Constraint
         return new \IteratorIterator($iterable);
     }
 
-    public function matches($other): bool
+    public function matches(mixed $other): bool
     {
         if (!$other instanceof LoaderInterface) {
             $this->fail($other, strtr('Expected an instance of %expected%, but got %actual%.', [
@@ -81,15 +81,13 @@ final class PipelineWritesFile extends Constraint
             );
         }
 
-        iterator_count($iterator);
-
         $constraint = new FileExists();
         $constraint->evaluate($this->expected);
 
         return !$iterator->valid();
     }
 
-    protected function failureDescription($other): string
+    protected function failureDescription(mixed $other): string
     {
         return sprintf(
             '%s pipeline writes file %s',

@@ -13,7 +13,7 @@ final readonly class ResponseBuilder implements Builder
         private string $path,
     ) {}
 
-    public function getNode(): Node
+    public function getNode(): Node\Expr
     {
         return new Node\Expr\Include_(new Node\Scalar\String_($this->path), Node\Expr\Include_::TYPE_INCLUDE);
     }
