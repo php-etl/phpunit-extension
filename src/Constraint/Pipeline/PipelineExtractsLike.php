@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kiboko\Component\PHPUnitExtension\Constraint\Pipeline;
 
+use Kiboko\Contract\Bucket\ResultBucketInterface;
 use Kiboko\Contract\Pipeline\ExtractorInterface;
 use Kiboko\Contract\Pipeline\NullStepRejection;
 use Kiboko\Contract\Pipeline\NullStepState;
@@ -26,9 +27,11 @@ final class PipelineExtractsLike extends Constraint
     }
 
     /**
-     * @param list<Type> $iterable
+     * @template ItemType
      *
-     * @return \Iterator<Type>
+     * @param list<ItemType> $iterable
+     *
+     * @return \Iterator<ItemType>
      */
     private function asIterator(iterable $iterable): \Iterator
     {
