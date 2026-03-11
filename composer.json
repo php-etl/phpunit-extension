@@ -14,10 +14,10 @@
         "mikey179/vfsstream": "^1.6"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.10",
+        "phpstan/phpstan": "^2.2",
         "friendsofphp/php-cs-fixer": "^3.38",
         "infection/infection": "^0.26.18",
-        "rector/rector": "^0.15"
+        "rector/rector": "^2.0"
     },
     "license": "MIT",
     "authors": [
@@ -47,7 +47,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "0.7.x-dev"
+            "dev-main": "0.7.x-dev",
+            "dev-next": "0.7.x-dev"
         }
     }
 }
