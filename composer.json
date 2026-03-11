@@ -5,7 +5,7 @@
     "require": {
         "php": "^8.4",
         "phpunit/phpunit": "^10.0",
-        "nikic/php-parser": "^4.10",
+        "nikic/php-parser": "^5.6",
         "php-etl/pipeline-contracts": "0.5.*",
         "php-http/message": "^1.11",
         "php-http/mock-client": "^1.4@dev",
